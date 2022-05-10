@@ -1,5 +1,8 @@
 import React from 'react'
 import logo from './images/logo.svg'
+import git from './images/GitHubSmall.png'
+import { Route, Routes } from 'react-router'
+import { Landing } from './pages/Landing'
 
 export function App() {
   return (
@@ -9,10 +12,15 @@ export function App() {
         <h1>Bike Check</h1>
         <div className="SignIn">Sign In</div>
       </header>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
       <footer>
         <div className="footer">
           <p>Created by <a href="http://www.amheiser.me">Nicholas Amheiser</a></p>
-          <p>Github repository: <a href="https://github.com/Amheisern"></a>github image</p>
+          <p>Github repository: <a href="https://github.com/Amheisern">
+            <img src={git} className="git" alt="git" />
+            </a></p>
         </div>
       </footer>
     </div>
