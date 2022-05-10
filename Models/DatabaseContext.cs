@@ -14,6 +14,7 @@ namespace BikeCheck.Models
         private static bool LOG_SQL_STATEMENTS_IN_DEVELOPMENT = false;
 
         // Add database tables here
+        public DbSet<Bicycle> Bicycles { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
