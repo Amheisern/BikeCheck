@@ -9,6 +9,12 @@ export function App() {
         <h1>Bike Check</h1>
         <div className="SignIn">Sign In</div>
       </header>
+      <footer>
+        <div className="footer">
+          <p>Created by <a href="http://www.amheiser.me">Nicholas Amheiser</a></p>
+          <p>Github repository: <a href="https://github.com/Amheisern"></a>github image</p>
+        </div>
+      </footer>
     </div>
   )
 }
