@@ -17,7 +17,7 @@ export function App() {
       </Routes>
       <footer>
         <div className="footer">
-          <p>Created by <a href="http://www.amheiser.me">Nicholas Amheiser</a></p>
+          <p className="ml-20">Created by <a href="http://www.amheiser.me">Nicholas Amheiser</a></p>
           <p>Github repository: <a href="https://github.com/Amheisern">
             <img src={git} className="git" alt="git" />
             </a></p>
