@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './images/logo.svg'
+import logo from './images/logoCS.svg'
 import git from './images/GitHubSmall.png'
 import { Route, Routes } from 'react-router'
 import { Landing } from './pages/Landing'
