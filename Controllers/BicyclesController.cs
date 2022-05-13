@@ -31,13 +31,22 @@ namespace BikeCheck.Controllers
         // Returns a list of all your Bicycles
         //
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Bicycle>>> GetBicycles()
+        public async Task<ActionResult<IEnumerable<Bicycle>>> GetBicycles(string filter)
         {
             // Uses the database context in `_context` to request all of the Bicycles, sort
             // them by row id and return them as a JSON array.
-            return await _context.Bicycles.OrderBy(row => row.Id).ToListAsync();
+            //  Else is used for the search function 
+            if (filter == null)
+            {
+                return await _context.Bicycles.OrderBy(row => row.Id).ToListAsync();
+            }
+            else
+            {
+                return await _context.Bicycles.OrderBy(row => row.Id)
+                .Where(row => row.Title.ToLower()
+                .Contains(filter.ToLower())).ToListAsync();
+            }
         }
-
         // GET: api/Bicycles/5
         //
         // Fetches and returns a specific bicycle by finding it by id. The id is specified in the
