@@ -43,8 +43,10 @@ namespace BikeCheck.Controllers
             else
             {
                 return await _context.Bicycles.OrderBy(row => row.Id)
-                .Where(row => row.Title.ToLower()
-                .Contains(filter.ToLower())).ToListAsync();
+                .Where(bicycle => bicycle.Title.ToLower()
+                .Contains(filter.ToLower()) || bicycle.Description.ToLower()
+                .Contains(filter.ToLower()))
+                .ToListAsync();
             }
         }
         // GET: api/Bicycles/5
