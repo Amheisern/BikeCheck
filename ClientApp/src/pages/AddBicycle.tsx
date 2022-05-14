@@ -19,6 +19,14 @@ export function AddBicycle() {
     pedals: '',
     other: '',
   })
+function handleFormChange(
+  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) {
+  const value = event.target.value
+  const fieldName = event.target.name
+  const updatedBicycle = { ...newBicycle, [fieldName]: value }
+  setNewBicycle(updatedBicycle)
+}
 
   return (
     <div>
@@ -26,14 +34,15 @@ export function AddBicycle() {
         <fieldset>
           <h1>Add a new bike</h1>
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Title">
+            <label className="col-md-4 control-label" htmlFor="title">
               Title
             </label>
             <div className="col-md-4">
               <input
-                id="Title"
-                name="Title"
-                value={newBicycle.title}                
+                id="title"
+                name="title"
+                value={newBicycle.title} 
+                onChange={handleFormChange}
                 type="text"
                 placeholder="Type a title"
                 className="form-control input-md"
@@ -42,14 +51,16 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Description">
+            <label className="col-md-4 control-label" htmlFor="description">
               Description
             </label>
             <div className="col-md-4">
               <textarea
                 className="form-control"
-                id="Description"
-                name="Description"
+                id="description"
+                name="description"
+                value={newBicycle.description}
+                onChange={handleFormChange}
               >
                 Type a description
               </textarea>
@@ -57,13 +68,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Frame">
+            <label className="col-md-4 control-label" htmlFor="frame">
               Frame
             </label>
             <div className="col-md-4">
               <input
-                id="Frame"
-                name="Frame"
+                id="frame"
+                name="frame"
+                value={newBicycle.frame}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you riding?"
                 className="form-control input-md"
@@ -72,13 +85,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Fork">
+            <label className="col-md-4 control-label" htmlFor="fork">
               Fork
             </label>
             <div className="col-md-4">
               <input
-                id="Fork"
-                name="Fork"
+                id="fork"
+                name="fork"
+                value={newBicycle.fork}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What is the make of the fork?"
                 className="form-control input-md"
@@ -87,13 +102,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Saddle">
+            <label className="col-md-4 control-label" htmlFor="saddle">
               Saddle
             </label>
             <div className="col-md-4">
               <input
-                id="Saddle"
-                name="Saddle"
+                id="saddle"
+                name="saddle"
+                value={newBicycle.saddle}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you sitting on?"
                 className="form-control input-md"
@@ -102,13 +119,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Handlebars">
+            <label className="col-md-4 control-label" htmlFor="handlebars">
               Handlebars
             </label>
             <div className="col-md-4">
               <input
-                id="Handlebars"
-                name="Handlebars"
+                id="handlebars"
+                name="handlebars"
+                value={newBicycle.handlebar}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you gripping?"
                 className="form-control input-md"
@@ -117,13 +136,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Bottom Bracket">
+            <label className="col-md-4 control-label" htmlFor="bottomBracket">
               Bottom Bracket
             </label>
             <div className="col-md-4">
               <input
-                id="Bottom Bracket"
-                name="Bottom Bracket"
+                id="bottomBracket"
+                name="bottomBracket"
+                value={newBicycle.bottomBracket}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you spinning ?"
                 className="form-control input-md"
@@ -132,13 +153,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Chain Ring">
+            <label className="col-md-4 control-label" htmlFor="chainRing">
               Chain Ring
             </label>
             <div className="col-md-4">
               <input
-                id="Chain Ring"
-                name="Chain Ring"
+                id="chainRing"
+                name="chainRing"
+                value={newBicycle.chainRing}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="How many teeth we working with?"
                 className="form-control input-md"
@@ -147,13 +170,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Rear Cog">
+            <label className="col-md-4 control-label" htmlFor="rearCog">
               Rear Cog
             </label>
             <div className="col-md-4">
               <input
-                id="Rear Cog"
-                name="Rear Cog"
+                id="rearCog"
+                name="rearCog"
+                value={newBicycle.rearCog}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="How many teeth we working with?"
                 className="form-control input-md"
@@ -162,13 +187,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Crank">
+            <label className="col-md-4 control-label" htmlFor="crank">
               Crank
             </label>
             <div className="col-md-4">
               <input
-                id="Crank"
-                name="Crank"
+                id="crank"
+                name="crank"
+                value={newBicycle.crank}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you cranking?"
                 className="form-control input-md"
@@ -177,13 +204,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Wheel set">
-              Wheel set
+            <label className="col-md-4 control-label" htmlFor="wheels">
+              Wheels
             </label>
             <div className="col-md-4">
               <input
-                id="Wheel set"
-                name="Wheel set"
+                id="wheels"
+                name="wheels"
+                value={newBicycle.wheels}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you skidding?"
                 className="form-control input-md"
@@ -192,13 +221,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Pedal">
-              Pedal
+            <label className="col-md-4 control-label" htmlFor="pedals">
+              Pedals
             </label>
             <div className="col-md-4">
               <input
-                id="Pedal"
-                name="Pedal"
+                id="pedals"
+                name="pedals"
+                value={newBicycle.pedals}
+                onChange={handleFormChange}
                 type="text"
                 placeholder="What are you standing on?"
                 className="form-control input-md"
@@ -207,11 +238,15 @@ export function AddBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="Other">
+            <label className="col-md-4 control-label" htmlFor="other">
               Other
             </label>
             <div className="col-md-4">
-              <textarea className="form-control" id="Other" name="Other">
+              <textarea className="form-control" 
+              id="other" 
+              name="other" 
+              value={newBicycle.other} 
+              onChange={handleFormChange}>
                 What else you got?
               </textarea>
             </div>
