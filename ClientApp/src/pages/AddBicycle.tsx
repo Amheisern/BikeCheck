@@ -1,7 +1,25 @@
 import React, { useState } from 'react'
+import { useMutation } from 'react-query'
 import { BicycleType } from '../types'
 
 export function AddBicycle() {
+  async function submitNewBicycle(BicycleToCreate: BicycleType) {
+    const response = await fetch('/api/bicycles', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(BicycleToCreate),
+    })
+    return response.json()
+  }
+const createNewBicycle = useMutation(submitNewBicycle)
+
+async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault()
+  createNewBicycle.mutate(newBicycle)
+}
+
   const [newBicycle, setNewBicycle] = useState<BicycleType>({
     id: undefined,
     userId: undefined,
@@ -19,18 +37,19 @@ export function AddBicycle() {
     pedals: '',
     other: '',
   })
-function handleFormChange(
-  event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-) {
-  const value = event.target.value
-  const fieldName = event.target.name
-  const updatedBicycle = { ...newBicycle, [fieldName]: value }
-  setNewBicycle(updatedBicycle)
-}
+
+  function handleFormChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const value = event.target.value
+    const fieldName = event.target.name
+    const updatedBicycle = { ...newBicycle, [fieldName]: value }
+    setNewBicycle(updatedBicycle)
+  }
 
   return (
     <div>
-      <form className="form-horizontal">
+      <form onSubmit={handleFormSubmit} className="form-horizontal">
         <fieldset>
           <h1>Add a new bike</h1>
           <div className="form-group">
@@ -41,7 +60,7 @@ function handleFormChange(
               <input
                 id="title"
                 name="title"
-                value={newBicycle.title} 
+                value={newBicycle.title}
                 onChange={handleFormChange}
                 type="text"
                 placeholder="Type a title"
@@ -119,13 +138,13 @@ function handleFormChange(
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="handlebars">
+            <label className="col-md-4 control-label" htmlFor="handlebar">
               Handlebars
             </label>
             <div className="col-md-4">
               <input
-                id="handlebars"
-                name="handlebars"
+                id="handlebar"
+                name="handlebar"
                 value={newBicycle.handlebar}
                 onChange={handleFormChange}
                 type="text"
@@ -242,13 +261,25 @@ function handleFormChange(
               Other
             </label>
             <div className="col-md-4">
-              <textarea className="form-control" 
-              id="other" 
-              name="other" 
-              value={newBicycle.other} 
-              onChange={handleFormChange}>
+              <textarea
+                className="form-control"
+                id="other"
+                name="other"
+                value={newBicycle.other}
+                onChange={handleFormChange}
+              >
                 What else you got?
               </textarea>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="col-md-4 control-label" htmlFor="submit">
+              submit
+            </label>
+            <div className="col-md-4">
+              <button id="submit" name="submit" className="btn btn-success">
+                Submit
+              </button>
             </div>
           </div>
         </fieldset>
