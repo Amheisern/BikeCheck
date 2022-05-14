@@ -36,6 +36,7 @@ export function AddBicycle() {
   const createNewBicycle = useMutation(submitNewBicycle, {
     onSuccess: () => {
       history('/')
+      // I will need to change this redirection to a users page
     },
   })
 
