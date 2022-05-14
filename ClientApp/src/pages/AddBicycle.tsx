@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
-import { BicycleType } from '../types'
+import { APIError, BicycleType } from '../types'
 
 export function AddBicycle() {
   const history = useNavigate()
@@ -23,6 +23,8 @@ export function AddBicycle() {
     pedals: '',
     other: '',
   })
+  const [errorMessage, setErrorMessage] = useState('')
+
   async function submitNewBicycle(BicycleToCreate: BicycleType) {
     const response = await fetch('/api/bicycles', {
       method: 'POST',
@@ -31,12 +33,21 @@ export function AddBicycle() {
       },
       body: JSON.stringify(BicycleToCreate),
     })
+    if (response.ok) {
     return response.json()
+    } 
+    else 
+    {
+      throw await response.json()
+    }
   }
   const createNewBicycle = useMutation(submitNewBicycle, {
     onSuccess: () => {
       history('/')
       // I will need to change this redirection to a users page
+    },
+    onError: function(apiError: APIError) {
+      setErrorMessage(Object.values(apiError.errors).join("/"))
     },
   })
 
@@ -59,6 +70,7 @@ export function AddBicycle() {
       <form onSubmit={handleFormSubmit} className="form-horizontal">
         <fieldset>
           <h1>Add a new bike</h1>
+          {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="title">
               Title
@@ -70,7 +82,7 @@ export function AddBicycle() {
                 value={newBicycle.title}
                 onChange={handleFormChange}
                 type="text"
-                placeholder="Type a title"
+                placeholder="Type a title (required)"
                 className="form-control input-md"
               />
             </div>
@@ -88,7 +100,7 @@ export function AddBicycle() {
                 value={newBicycle.description}
                 onChange={handleFormChange}
               >
-                Type a description
+                Type a description(required)
               </textarea>
             </div>
           </div>

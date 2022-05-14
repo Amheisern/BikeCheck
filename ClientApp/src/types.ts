@@ -22,3 +22,11 @@ export type BicycleType = {
   pedals: string
   other: string
 }
+
+export type APIError = {
+  errors: Record<string, string[]>
+  status: number
+  title: string
+  traceId: string
+  type: string
+}

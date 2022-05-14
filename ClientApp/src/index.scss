@@ -203,3 +203,9 @@ a:visited {
 .ml-20 {
   margin-left: 20px;
 }
+.form-error {
+  padding: 1.25rem;
+  font-size: 1.25rem;
+  background-color: var(--red-0);
+  color: white;
+}
