@@ -3,6 +3,7 @@ import logo from './images/logoCS.png'
 import git from './images/GitHubSmall.png'
 import { Route, Routes } from 'react-router'
 import { Landing } from './pages/Landing'
+import { AddBicycle } from './pages/AddBicycle'
 
 export function App() {
   return (
@@ -14,6 +15,7 @@ export function App() {
       </header>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/add" element={<AddBicycle />} />
       </Routes>
       <footer>
         <div className="footer">
