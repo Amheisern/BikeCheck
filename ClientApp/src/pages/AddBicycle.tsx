@@ -1,24 +1,10 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router'
 import { BicycleType } from '../types'
 
 export function AddBicycle() {
-  async function submitNewBicycle(BicycleToCreate: BicycleType) {
-    const response = await fetch('/api/bicycles', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(BicycleToCreate),
-    })
-    return response.json()
-  }
-const createNewBicycle = useMutation(submitNewBicycle)
-
-async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault()
-  createNewBicycle.mutate(newBicycle)
-}
+  const history = useNavigate()
 
   const [newBicycle, setNewBicycle] = useState<BicycleType>({
     id: undefined,
@@ -37,6 +23,26 @@ async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     pedals: '',
     other: '',
   })
+  async function submitNewBicycle(BicycleToCreate: BicycleType) {
+    const response = await fetch('/api/bicycles', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(BicycleToCreate),
+    })
+    return response.json()
+  }
+  const createNewBicycle = useMutation(submitNewBicycle, {
+    onSuccess: () => {
+      history('/')
+    },
+  })
+
+  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    createNewBicycle.mutate(newBicycle)
+  }
 
   function handleFormChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
