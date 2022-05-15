@@ -15,6 +15,7 @@ namespace BikeCheck.Models
 
         // Add database tables here
         public DbSet<Bicycle> Bicycles { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
