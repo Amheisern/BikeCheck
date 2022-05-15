@@ -1,13 +1,46 @@
 import React, { useState } from 'react'
+import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router'
+import { APIError, LoginSuccess, UserLoginType } from '../types'
 
-const [errorMessage, setErrorMessage] = useState('')
-
-const [user, setUser] = useState<LoginUserType>({
-  email: '',
-  password: '',
-})
+async function loginUser(user: UserLoginType): Promise<LoginSuccess> {
+  const response = await fetch('/api/Session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',},
+      body: JSON.stringify(user),})
+  if (response.ok) {
+    return response.json()
+  } else {
+    throw await response.json()
+  }
+}
 
 export function SignIn() {
+  const history = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [newUser, setNewUser] = useState<UserLoginType>({
+    email: '',
+    password: '',
+  })
+  const createUserMutation = useMutation(
+  (newUser: NewUserType) => loginUser(newUser),
+     {
+      onSuccess: () => {
+        history('/')
+      },
+      onError: function(error: APIError){
+        setErrorMessage(Object.values(error.errors).join("/"))
+      },
+    })
+    
+  function handleStringFieldChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value
+    const fieldName = event.target.name
+    const updatedUser = { ...newUser,[fieldName]: value }
+    setNewUser(updatedUser)
+  }
+  
   return (
     <div>
       <nav>
@@ -16,14 +49,21 @@ export function SignIn() {
         </a>
         <h2>Sign In</h2>
       </nav>
-      <form action="#">
+      <form onSubmit={(event) => {
+        event.preventDefault()
+        createUserMutation.mutate(newUser)
+      }}>
+        {errorMessage ? <p className="SignIn-Error">{errorMessage}</p> : null}
         <p className="form-input">
           <label htmlFor="name">Email</label>
-          <input type="email" name="email" />
+          <input type="email" name="email" value={newUser.email} 
+          onChange={handleStringFieldChange}/>
         </p>
         <p className="form-input">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" />
+          <input type="password" name="password"
+          value={newUser.password}
+          onChange={handleStringFieldChange} />
         </p>
         <p>
           <input type="submit" value="Submit" />

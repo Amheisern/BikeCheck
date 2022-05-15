@@ -1,5 +1,5 @@
-//This is code to deal with the star rating 
-import {CSSProperties} from 'react'
+//This is code to deal with the star rating
+import { CSSProperties } from 'react'
 
 export interface CSSStarsProperties extends CSSProperties {
   '--rating': number
@@ -23,6 +23,15 @@ export type BicycleType = {
   other: string
 }
 
+export type NewUserType = {
+  id: number | undefined
+  username: string
+  password: string
+  email: string
+  firstName: string
+  lastName: string
+}
+
 export type APIError = {
   errors: Record<string, string[]>
   status: number
@@ -37,10 +46,10 @@ export type UserLoginType = {
 }
 
 export type LoginSuccess = {
- token: string
- user: {
+  token: string
+  user: {
     id: number
     fullName: string
     email: string
- }
+  }
 }
