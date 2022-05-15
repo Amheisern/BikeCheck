@@ -11,5 +11,8 @@ namespace BikeCheck.Models
         public DateTime CreatedAt { get; private set; } = DateTime.Now;
         public int BicycleId { get; set; }
         public Bicycle Bicycle { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+
     }
 }
