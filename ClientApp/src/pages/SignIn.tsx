@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
+const [errorMessage, setErrorMessage] = useState('')
 
-
-
-
+const [user, setUser] = useState<LoginUserType>({
+  email: '',
+  password: '',
+})
 
 export function SignIn() {
   return (
