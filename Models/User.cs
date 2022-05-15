@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace BikeCheck.Models
 {
     public class User
-    {
+    {   
         public int Id { get; set; }
         [Required(ErrorMessage = "You must provide your name.")]
         public string FullName { get; set; }
@@ -14,6 +15,7 @@ namespace BikeCheck.Models
         [JsonIgnore]
         public string HashedPassword { get; set; }
         // Define a property for being able to _set_ a password
+        public List<Bicycle> bicycle { get; set; }
         public string Password
         {
             // Define only the `set` aspect of the property

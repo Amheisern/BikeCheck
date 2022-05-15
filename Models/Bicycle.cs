@@ -31,6 +31,8 @@ namespace BikeCheck.Models
 
         [MaxLength(500)]
         public string Other { get; set; }
+        
+        public List<Review> Reviews { get; set; }
 
 
     }
