@@ -22,6 +22,7 @@ export function AddBicycle() {
     wheels: '',
     pedals: '',
     other: '',
+    reviews: [],
   })
   const [errorMessage, setErrorMessage] = useState('')
 

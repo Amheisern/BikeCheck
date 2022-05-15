@@ -6,3 +6,8 @@ INSERT INTO "Bicycles" ("Title", "Description", "Frame", "Fork", "Saddle", "Hand
 INSERT INTO "Bicycles" ("Title", "Description", "Frame", "Fork", "Saddle", "Handlebar", "BottomBracket", "ChainRing", "RearCog", "Crank", "WheelSet", "Pedals", "Other") VALUES ('Bicycle 5', 'Description 5', 'Frame 5', 'Fork 5', 'Saddle 5', 'Handlebar 5', 'BottomBracket 5', 'ChainRing 5', 'RearCog 5', 'Crank 5', 'WheelSet 5', 'Pedals 5', 'Other 5');
 INSERT INTO "Bicycles" ("Title", "Description", "Frame", "Fork", "Saddle", "Handlebar", "BottomBracket", "ChainRing", "RearCog", "Crank", "WheelSet", "Pedals", "Other") VALUES ('Bicycle 6', 'Description 6', 'Frame 6', 'Fork 6', 'Saddle 6', 'Handlebar 6', 'BottomBracket 6', 'ChainRing 6', 'RearCog 6', 'Crank 6', 'WheelSet 6', 'Pedals 6', 'Other 6');
 INSERT INTO "Bicycles" ("Title", "Description", "Frame", "Fork", "Saddle", "Handlebar", "BottomBracket", "ChainRing", "RearCog", "Crank", "WheelSet", "Pedals", "Other") VALUES ('Bicycle 7', 'Description 7', 'Frame 7', 'Fork 7', 'Saddle 7', 'Handlebar 7', 'BottomBracket 7', 'ChainRing 7', 'RearCog 7', 'Crank 7', 'WheelSet 7', 'Pedals 7', 'Other 7');
+
+TRUNCATE TABLE "Reviews" RESTART IDENTITY;
+INSERT INTO "Reviews" ("BicycleId", "CreatedAt", "Summary", "Body", "Stars") VALUES ( 1, '2020-01-01 14:23:55', 'Clean', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima modi impedit quisquam sit, saepe enim placeat a vero voluptas asperiores atque laudantium in, nobis sunt blanditiis dignissimos. Deleniti, esse optio!', 4);
+
+-- INSERT INTO "Users" ("Id", "FullName", "Email", "HashedPassword") VALUES (1, 'John Doe', 'sample1@gmail.com', 'Password1');

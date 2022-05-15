@@ -21,6 +21,15 @@ export type BicycleType = {
   wheels: string
   pedals: string
   other: string
+  reviews?: ReviewType[]
+}
+export type ReviewType = {
+  id: number | undefined
+  summary: string
+  body: string
+  stars: number
+  createdAt?: string
+  bicycleId: number
 }
 
 export type NewUserType = {
@@ -39,6 +48,7 @@ export type APIError = {
   traceId: string
   type: string
 }
+
 
 export type UserLoginType = {
   email: string
