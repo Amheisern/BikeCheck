@@ -77,6 +77,7 @@ export function AddBicycle() {
             </label>
             <div className="col-md-4">
               <input
+                required 
                 id="title"
                 name="title"
                 value={newBicycle.title}
@@ -95,6 +96,7 @@ export function AddBicycle() {
             <div className="col-md-4">
               <textarea
                 className="form-control"
+                required
                 id="description"
                 name="description"
                 value={newBicycle.description}
