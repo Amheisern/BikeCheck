@@ -105,7 +105,10 @@ export function BicycleDetails() {
             onChange={handleNewReviewTextFieldChange}
           ></textarea>
         </p>
-        </form>
+        <button id="submit" name="submit" className="btn btn-success">
+          Submit
+        </button>
+      </form>
     </div>
   )
 }
