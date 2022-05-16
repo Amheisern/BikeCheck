@@ -21,7 +21,7 @@ export type BicycleType = {
   wheels: string
   pedals: string
   other: string
-  reviews?: ReviewType[]
+  reviews: ReviewType[]
 }
 export type ReviewType = {
   id: number | undefined
