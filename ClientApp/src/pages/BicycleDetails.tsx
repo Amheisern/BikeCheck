@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router'
-import { BicycleType, CSSStarsProperties} from '../types'
+import { BicycleType, CSSStarsProperties, ReviewType} from '../types'
 import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
 
@@ -27,10 +27,26 @@ const NullBicycle: BicycleType = {
 
 export function BicycleDetails() {
   const {id} = useParams<{id: string}>()
+  const [newReview, setNewReview] = useState<ReviewType>({
+    id: undefined,
+    body: '',
+    stars: 5,
+    summary: '',
+    bicycleId: Number(id),
+  })
+
   const { data: bicycle = NullBicycle } = useQuery<BicycleType>(
     ['one-bicycle', id], 
     () => loadBicycleDetails()
   )
+
+  function handleNewReviewTextFieldChange(
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) {
+    const name = event.target.name
+    const value = event.target.value
+    setNewReview({ ...newReview, [name]: value })}
+  
   async function loadBicycleDetails() {
     const response = await fetch(`/api/bicycles/${id}`)
     if (response.ok) {
@@ -67,6 +83,29 @@ export function BicycleDetails() {
           </li>
         </ul>
       </article>
+      <h3>Leave a review</h3>
+      <p>Remember be positive. Spread happiness</p>
+      <form>
+        <p className="form-input">
+          <label htmlFor="summary">Summary</label>
+          <input
+            type="text"
+            placeholder="Type a summary (required)"
+            name="summary"
+            value={newReview.summary}
+            onChange={handleNewReviewTextFieldChange}
+          />
+        </p>
+        <p className="form-input">
+          <label htmlFor="body">Review</label>
+          <textarea
+            placeholder="Type a review here"
+            name="body"
+            value={newReview.body}
+            onChange={handleNewReviewTextFieldChange}
+          ></textarea>
+        </p>
+        </form>
     </div>
   )
 }
