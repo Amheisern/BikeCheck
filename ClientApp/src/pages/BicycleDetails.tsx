@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { BicycleType, CSSStarsProperties, ReviewType} from '../types'
 import defaultBikeImage from '../images/default.jpg'
@@ -39,13 +39,37 @@ export function BicycleDetails() {
     ['one-bicycle', id], 
     () => loadBicycleDetails()
   )
-
+   async function submitNewReview(review: ReviewType) {
+     const response = await fetch('/api/reviews', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify(review),
+     })
+     if (response.ok) {
+       return response.json()
+     } else {
+       throw await response.json()
+     }
+   }
+     const createNewReview = useMutation(submitNewReview, {
+       onSuccess: () => {
+         `/bicycles/${bicycle.id}`
+       },
+     })
   function handleNewReviewTextFieldChange(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
     const name = event.target.name
     const value = event.target.value
     setNewReview({ ...newReview, [name]: value })}
+
+    // need to figure out if i want and how to implement a rating System
+    // Not a fan of the current one. 
+  // function handleNewReviewStarsChange(newStars: number) {
+  //   setNewReview({ ...newReview, stars: newStars })
+  // }
   
   async function loadBicycleDetails() {
     const response = await fetch(`/api/bicycles/${id}`)
@@ -85,7 +109,12 @@ export function BicycleDetails() {
       </article>
       <h3>Leave a review</h3>
       <p>Remember be positive. Spread happiness</p>
-      <form>
+      <form onSubmit={
+        (event) => {
+          event.preventDefault()
+          createNewReview.mutate(newReview)
+        }
+      }>
         <p className="form-input">
           <label htmlFor="summary">Summary</label>
           <input
@@ -105,6 +134,7 @@ export function BicycleDetails() {
             onChange={handleNewReviewTextFieldChange}
           ></textarea>
         </p>
+      
         <button id="submit" name="submit" className="btn btn-success">
           Submit
         </button>
