@@ -34,11 +34,9 @@ export type ReviewType = {
 
 export type NewUserType = {
   id: number | undefined
-  username: string
   password: string
   email: string
-  firstName: string
-  lastName: string
+  fullName: string
 }
 
 export type APIError = {
@@ -48,7 +46,6 @@ export type APIError = {
   traceId: string
   type: string
 }
-
 
 export type UserLoginType = {
   email: string

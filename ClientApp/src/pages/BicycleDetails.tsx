@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 import { BicycleType, CSSStarsProperties, ReviewType} from '../types'
 import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
-
+// import format from 'date-fns/format'
   
 const NullBicycle: BicycleType = {
   id: undefined,
@@ -24,6 +24,7 @@ const NullBicycle: BicycleType = {
   other: '',
   reviews: [],
 }
+// const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
 
 export function BicycleDetails() {
   const {id} = useParams<{id: string}>()
@@ -35,7 +36,7 @@ export function BicycleDetails() {
     bicycleId: Number(id),
   })
 
-  const { data: bicycle = NullBicycle } = useQuery<BicycleType>(
+  const { refetch, data: bicycle = NullBicycle } = useQuery<BicycleType>(
     ['one-bicycle', id], 
     () => loadBicycleDetails()
   )
@@ -55,7 +56,13 @@ export function BicycleDetails() {
    }
      const createNewReview = useMutation(submitNewReview, {
        onSuccess: () => {
-         `/bicycles/${bicycle.id}`
+         refetch()
+         //clears review after submission
+         setNewReview({ ...newReview,
+        body: '',
+        stars: 5,
+        summary: '',
+      })
        },
      })
   function handleNewReviewTextFieldChange(

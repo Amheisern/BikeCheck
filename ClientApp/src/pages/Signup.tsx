@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router'
 import { APIError, LoginSuccess, UserLoginType } from '../types'
 
 async function loginUser(user: UserLoginType): Promise<LoginSuccess> {
-  const response = await fetch('/api/Session', {
+  const response = await fetch('/api/Sessions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',},
