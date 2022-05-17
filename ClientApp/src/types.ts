@@ -32,12 +32,7 @@ export type ReviewType = {
   bicycleId: number
 }
 
-export type NewUserType = {
-  id: number | undefined
-  password: string
-  email: string
-  fullName: string
-}
+
 
 export type APIError = {
   errors: Record<string, string[]>
@@ -45,6 +40,12 @@ export type APIError = {
   title: string
   traceId: string
   type: string
+}
+export type NewUserType = {
+  id?: number | undefined
+  password: string
+  email: string
+  fullName?: string
 }
 
 export type UserLoginType = {

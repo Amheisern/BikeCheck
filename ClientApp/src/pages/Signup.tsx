@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
-import { APIError, LoginSuccess, UserLoginType } from '../types'
+import { APIError, LoginSuccess, NewUserType, UserLoginType } from '../types'
 
 async function loginUser(user: UserLoginType): Promise<LoginSuccess> {
   const response = await fetch('/api/Sessions', {
