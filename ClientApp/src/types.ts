@@ -42,7 +42,6 @@ export type APIError = {
   type: string
 }
 export type NewUserType = {
-  id?: number | undefined
   password: string
   email: string
   fullName?: string

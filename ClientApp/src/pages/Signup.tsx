@@ -1,30 +1,34 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
-import { APIError, LoginSuccess, NewUserType, UserLoginType } from '../types'
+import { APIError, NewUserType } from '../types'
 
-async function loginUser(user: UserLoginType): Promise<LoginSuccess> {
-  const response = await fetch('/api/Sessions', {
+async function submitNewUser(newUser: NewUserType) {
+  const response = await fetch('/api/Users', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',},
-      body: JSON.stringify(user),})
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newUser),
+  })
   if (response.ok) {
-    return response.json()
+    return response.json() 
   } else {
     throw await response.json()
   }
 }
 
-export function SignIn() {
+export function SignUp() {
   const history = useNavigate()
   const [errorMessage, setErrorMessage] = useState('')
-  const [newUser, setNewUser] = useState<UserLoginType>({
+  const [newUser, setNewUser] = useState<NewUserType>({
+    fullName: '',
     email: '',
     password: '',
   })
+
   const createUserMutation = useMutation(
-  (newUser: NewUserType) => loginUser(newUser),
+  (newUser: NewUserType) => submitNewUser(newUser),
      {
       onSuccess: () => {
         history('/')
@@ -47,23 +51,41 @@ export function SignIn() {
         <a href="/">
           <i className="fa fa-home"></i>
         </a>
-        <h2>Sign In</h2>
+        <h2>Sign up</h2>
       </nav>
-      <form onSubmit={(event) => {
-        event.preventDefault()
-        createUserMutation.mutate(newUser)
-      }}>
-        {errorMessage ? <p className="SignIn-Error">{errorMessage}</p> : null}
+      <form
+        onSubmit={function (event) {
+          event.preventDefault()
+          createUserMutation.mutate(newUser)
+        }}
+      >
+        {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+        <p className="form-input">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            name="fullName"
+            value={newUser.fullName}
+            onChange={handleStringFieldChange}
+          />
+        </p>
         <p className="form-input">
           <label htmlFor="name">Email</label>
-          <input type="email" name="email" value={newUser.email} 
-          onChange={handleStringFieldChange}/>
+          <input
+            type="email"
+            name="email"
+            value={newUser.email}
+            onChange={handleStringFieldChange}
+          />
         </p>
         <p className="form-input">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password"
-          value={newUser.password}
-          onChange={handleStringFieldChange} />
+          <input
+            type="password"
+            name="password"
+            value={newUser.password}
+            onChange={handleStringFieldChange}
+          />
         </p>
         <p>
           <input type="submit" value="Submit" />

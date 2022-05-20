@@ -6,6 +6,7 @@ import { Landing } from './pages/Landing'
 import { AddBicycle } from './pages/AddBicycle'
 import { Link } from 'react-router-dom'
 import { BicycleDetails } from './pages/BicycleDetails'
+import { SignUp } from './pages/Signup'
 
 export function App() {
   return (
@@ -15,12 +16,13 @@ export function App() {
           <img src={logo} className="logo" alt="logo" />
         </Link>
         <h1>Chain Stars</h1>
-        <div className="SignIn">Sign In</div>
+        <Link to="/signup" className="SignUp">Sign Up</Link>
       </header>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/bicycles/:id" element={<BicycleDetails />} />
         <Route path="/add" element={<AddBicycle />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       <footer>
         <div className="footer">
