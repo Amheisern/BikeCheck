@@ -124,14 +124,26 @@ namespace BikeCheck.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            try
+            {
             // Indicate to the database context we want to add this new record
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             // Return a response that indicates the object was created (status code `201`) and some additional
             // headers with details of the newly created object.
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);}
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                var response = new
+                {
+                    status = 400,
+                    error = new List<string>(){ "User already exists" }
+                };
+                return BadRequest(response);
+            }
         }
+
 
         // DELETE: api/Users/5
         //
