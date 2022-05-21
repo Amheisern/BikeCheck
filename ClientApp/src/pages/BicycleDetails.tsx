@@ -4,6 +4,7 @@ import { useParams } from 'react-router'
 import { BicycleType, CSSStarsProperties, ReviewType} from '../types'
 import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
+import { isLoggedIn } from '../auth'
 // import format from 'date-fns/format'
   
 const NullBicycle: BicycleType = {
@@ -114,14 +115,17 @@ export function BicycleDetails() {
           </li>
         </ul>
       </article>
-      <h3>Leave a review</h3>
-      <p>Remember be positive. Spread happiness</p>
+      {isLoggedIn() ?
+      
       <form onSubmit={
         (event) => {
           event.preventDefault()
           createNewReview.mutate(newReview)
         }
       }>
+              <h3>Leave a review</h3>
+      <p>Remember be positive. Spread happiness</p>
+
         <p className="form-input">
           <label htmlFor="summary">Summary</label>
           <input
@@ -145,7 +149,7 @@ export function BicycleDetails() {
         <button id="submit" name="submit" className="btn btn-success">
           Submit
         </button>
-      </form>
+      </form> : null}
     </div>
   )
 }
