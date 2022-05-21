@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
+import { authHeader } from '../auth'
 import { APIError, BicycleType } from '../types'
 
 export function AddBicycle() {
@@ -31,14 +32,13 @@ export function AddBicycle() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: authHeader(),
       },
       body: JSON.stringify(BicycleToCreate),
     })
     if (response.ok) {
-    return response.json()
-    } 
-    else 
-    {
+      return response.json()
+    } else {
       throw await response.json()
     }
   }
@@ -47,8 +47,8 @@ export function AddBicycle() {
       history('/')
       // I will need to change this redirection to a users page
     },
-    onError: function(apiError: APIError) {
-      setErrorMessage(Object.values(apiError.errors).join("/"))
+    onError: function (apiError: APIError) {
+      setErrorMessage(Object.values(apiError.errors).join('/'))
     },
   })
 
@@ -78,7 +78,7 @@ export function AddBicycle() {
             </label>
             <div className="col-md-4">
               <input
-                required 
+                required
                 id="title"
                 name="title"
                 value={newBicycle.title}

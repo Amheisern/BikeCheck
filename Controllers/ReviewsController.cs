@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BikeCheck.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BikeCheck.Controllers
 {
@@ -122,8 +124,10 @@ namespace BikeCheck.Controllers
         // new values for the record.
         //
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<Review>> PostReview(Review review)
         {
+            review.UserId = GetCurrentUserId();
             // Indicate to the database context we want to add this new record
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
@@ -164,6 +168,12 @@ namespace BikeCheck.Controllers
         private bool ReviewExists(int id)
         {
             return _context.Reviews.Any(review => review.Id == id);
+        }
+        // Private helper method to get the JWT claim related to the user ID
+        private int GetCurrentUserId()
+        {
+            // Get the User Id from the claim and then parse it as an integer.
+            return int.Parse(User.Claims.FirstOrDefault(claim => claim.Type == "Id").Value);
         }
     }
 }
