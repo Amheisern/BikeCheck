@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { BicycleDetails } from './pages/BicycleDetails'
 import { SignUp } from './pages/Signup'
 import { SignIn } from './pages/Signin'
+import { isLoggedIn } from './auth'
 
 export function App() {
   return (
@@ -17,8 +18,16 @@ export function App() {
           <img src={logo} className="logo" alt="logo" />
         </Link>
         <h1>Chain Stars</h1>
-        <Link to="/signin" className="signIn">Sign In </Link>
-        <Link to="/signup" className="SignUp">Sign Up</Link>
+        {isLoggedIn() ? null : (
+          <Link to="/signin" className="signIn">
+            Sign In{' '}
+          </Link>
+        )}
+        {isLoggedIn() ? null : (
+          <Link to="/signup" className="SignUp">
+            Sign Up
+          </Link>
+        )}
       </header>
       <Routes>
         <Route path="/" element={<Landing />} />

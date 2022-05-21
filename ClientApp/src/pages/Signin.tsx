@@ -77,7 +77,7 @@ export function SignIn(){
             onChange={handleStringFieldChange}
           />
         </label>
-        <button type="submit">Sign up</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   )
