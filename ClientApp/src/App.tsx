@@ -8,9 +8,17 @@ import { Link } from 'react-router-dom'
 import { BicycleDetails } from './pages/BicycleDetails'
 import { SignUp } from './pages/Signup'
 import { SignIn } from './pages/Signin'
-import { isLoggedIn } from './auth'
+import { getUser, isLoggedIn, logout } from './auth'
 
 export function App() {
+const user = getUser()
+  
+  function handleLogout() {
+    logout()
+
+    window.location.assign('/')
+  }
+
   return (
     <div>
       <header>
@@ -28,6 +36,20 @@ export function App() {
             Sign Up
           </Link>
         )}
+        {isLoggedIn() ? (
+          <a
+            href="/"
+            className="link"
+            onClick={function (event) {
+              event.preventDefault()
+              handleLogout()
+            }}
+          >
+            Sign out
+          </a>
+        ) : null}
+        {isLoggedIn() ? <p className='stable'> {user.fullName} Bicycles </p> : null}
+        
       </header>
       <Routes>
         <Route path="/" element={<Landing />} />
