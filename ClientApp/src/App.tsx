@@ -27,11 +27,9 @@ function LoggedInNav() {
         onClick={function (event) {
           event.preventDefault()
           handleLogout()
-        }}
-      >
+        }}>
         Sign out
       </a>
-      
       <p className="stable"> {user.fullName} Bicycles </p>
     </>
   )
