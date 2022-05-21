@@ -8,16 +8,48 @@ import { Link } from 'react-router-dom'
 import { BicycleDetails } from './pages/BicycleDetails'
 import { SignUp } from './pages/Signup'
 import { SignIn } from './pages/Signin'
+import { UserPage } from './pages/UserPage'
 import { getUser, isLoggedIn, logout } from './auth'
 
-export function App() {
-const user = getUser()
-  
-  function handleLogout() {
-    logout()
 
-    window.location.assign('/')
-  }
+function LoggedInNav() {
+    const user = getUser()
+    function handleLogout() {
+      logout()
+
+      window.location.assign('/')
+    }
+  return (
+    <>
+      <a
+        href="/"
+        className="link"
+        onClick={function (event) {
+          event.preventDefault()
+          handleLogout()
+        }}
+      >
+        Sign out
+      </a>
+      
+      <p className="stable"> {user.fullName} Bicycles </p>
+    </>
+  )
+}
+function SignoutNav(){
+return (
+  <>
+   <Link to="/signin" className="signIn">
+        Sign In
+      </Link>
+      <Link to="/signup" className="SignUp">
+        Sign Up
+      </Link>
+  </>
+)
+}
+
+export function App() {
 
   return (
     <div>
@@ -26,30 +58,10 @@ const user = getUser()
           <img src={logo} className="logo" alt="logo" />
         </Link>
         <h1>Chain Stars</h1>
-        {isLoggedIn() ? null : (
-          <Link to="/signin" className="signIn">
-            Sign In{' '}
-          </Link>
-        )}
-        {isLoggedIn() ? null : (
-          <Link to="/signup" className="SignUp">
-            Sign Up
-          </Link>
-        )}
-        {isLoggedIn() ? (
-          <a
-            href="/"
-            className="link"
-            onClick={function (event) {
-              event.preventDefault()
-              handleLogout()
-            }}
-          >
-            Sign out
-          </a>
-        ) : null}
-        {isLoggedIn() ? <p className='stable'> {user.fullName} Bicycles </p> : null}
-        
+        <nav>
+          {isLoggedIn() ? <LoggedInNav /> : <SignoutNav />}
+        </nav>
+      
       </header>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -57,6 +69,8 @@ const user = getUser()
         <Route path="/add" element={<AddBicycle />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/user/:id" element={<UserPage />} />
+      
       </Routes>
       <footer>
         <div className="footer">
