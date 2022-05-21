@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
-import { BicycleType, CSSStarsProperties, ReviewType } from '../types'
+import { BicycleType, CSSStarsProperties, NewReviewType} from '../types'
 import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
 import { authHeader, isLoggedIn } from '../auth'
@@ -29,11 +29,12 @@ const NullBicycle: BicycleType = {
 
 export function BicycleDetails() {
   const { id } = useParams<{ id: string }>()
-  const [newReview, setNewReview] = useState<ReviewType>({
+  const [newReview, setNewReview] = useState<NewReviewType>({
     id: undefined,
     body: '',
     stars: 5,
     summary: '',
+    createdAt: new Date(),
     bicycleId: Number(id),
   })
 
@@ -41,7 +42,7 @@ export function BicycleDetails() {
     ['one-bicycle', id],
     () => loadBicycleDetails()
   )
-  async function submitNewReview(review: ReviewType) {
+  async function submitNewReview(review: NewReviewType) {
     const response = await fetch('/api/reviews', {
       method: 'POST',
       headers: {

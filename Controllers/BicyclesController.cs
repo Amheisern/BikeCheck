@@ -68,6 +68,7 @@ namespace BikeCheck.Controllers
             var bicycle = await _context.Bicycles
             .Where(bicycle => bicycle.Id == id)
             .Include(bicycle => bicycle.Reviews)
+            .ThenInclude(review => review.User)
             .FirstOrDefaultAsync();
 
             // If we didn't find anything, we receive a `null` in return

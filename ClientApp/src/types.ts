@@ -30,9 +30,17 @@ export type ReviewType = {
   stars: number
   createdAt?: string
   bicycleId: number
+  user: LoggedInUser
 }
 
-
+export type NewReviewType = {
+  id: number | undefined
+  summary: string
+  body: string
+  stars: number
+  createdAt: Date
+  bicycleId: number
+}
 
 export type APIError = {
   errors: Record<string, string[]>
