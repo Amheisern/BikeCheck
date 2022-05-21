@@ -47,7 +47,7 @@ export type NewUserType = {
   fullName?: string
 }
 
-export type UserLoginType = {
+export type LoginUserType = {
   email: string
   password: string
 }
