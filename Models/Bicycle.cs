@@ -19,7 +19,6 @@ namespace BikeCheck.Models
 
         [MaxLength(100)]
         public string Frame { get; set; }
-
         public string Fork { get; set; }
         public string Saddle { get; set; }
         public string Handlebar { get; set; }

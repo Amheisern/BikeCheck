@@ -44,6 +44,8 @@ namespace BikeCheck.Controllers
                 return await _context.Bicycles.OrderBy(row => row.Id)
                 .Include(bicycle => bicycle.Reviews)
                 .ToListAsync();
+                // return await _context.Bicycles.OrderBy(row => row.Id)
+                // .ToListAsync();
             }
             else
             {
@@ -64,6 +66,11 @@ namespace BikeCheck.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Bicycle>> GetBicycle(int id)
         {
+            //     var bicycle = await _context.Bicycles
+            //    .Where(bicycle => bicycle.Id == id)
+            //    .Include(bicycle => bicycle.Reviews)
+            //    .ThenInclude(review => review.User)
+            //    .FirstOrDefaultAsync();
             // Find the bicycle in the database using `FindAsync` to look it up by id
             var bicycle = await _context.Bicycles
             .Where(bicycle => bicycle.Id == id)
