@@ -26,7 +26,7 @@ export function Landing() {
         <form className="search">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search for a bicycle"
             value={filterText}
             onChange={function (event) {
               SetFilterText(event.target.value)

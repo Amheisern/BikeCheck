@@ -30,7 +30,9 @@ function LoggedInNav() {
         }}>
         Sign out
       </a>
+      <Link to="/user">
       <p className="stable"> {user.fullName} Bicycles </p>
+      </Link>
     </>
   )
 }
