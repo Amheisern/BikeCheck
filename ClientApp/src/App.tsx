@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './images/logoCS.png'
+import logo from './images/ChainStarsLogoCenter.png'
 import git from './images/GitHubSmall.png'
 import { Route, Routes } from 'react-router'
 import { Landing } from './pages/Landing'
@@ -23,7 +23,7 @@ function LoggedInNav() {
     <>
       <a
         href="/"
-        className="link"
+        className="signout"
         onClick={function (event) {
           event.preventDefault()
           handleLogout()
@@ -37,7 +37,8 @@ function LoggedInNav() {
 function SignoutNav(){
 return (
   <>
-   <Link to="/signin" className="signIn">
+
+      <Link to="/signin" className="signIn">
         Sign In
       </Link>
       <Link to="/signup" className="SignUp">
@@ -55,10 +56,9 @@ export function App() {
         <Link to="/">
           <img src={logo} className="logo" alt="logo" />
         </Link>
-        <h1>Chain Stars</h1>
-        <nav>
+        <div className="loggingNav">
           {isLoggedIn() ? <LoggedInNav /> : <SignoutNav />}
-        </nav>
+        </div>
       
       </header>
       <Routes>
@@ -77,7 +77,7 @@ export function App() {
             <Link to="http://www.amheiser.me">Nicholas Amheiser</Link>
           </p>
           <p>
-            Github repository:{' '}
+            Github:{' '}
             <Link to="https://github.com/Amheisern">
               <img src={git} className="git" alt="git" />
             </Link>
