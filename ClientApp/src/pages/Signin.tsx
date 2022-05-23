@@ -48,7 +48,7 @@ export function SignIn() {
         <a href="/">
           <i className="fa fa-home"></i>
         </a>
-        <h2>Sign in</h2>
+        <h2>Welcome back</h2>
       </nav>
       <form
         onSubmit={function (event) {
@@ -75,7 +75,7 @@ export function SignIn() {
             onChange={handleStringFieldChange}
           />
         </label>
-        <button type="submit">Sign In</button>
+        <button type="submit" className="submit">Sign In</button>
       </form>
     </div>
   )
