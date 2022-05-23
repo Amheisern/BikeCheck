@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
-import { authHeader } from '../auth'
+import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType } from '../types'
 
 export function AddBicycle() {
   const history = useNavigate()
+  const user = getUser()
 
   const [newBicycle, setNewBicycle] = useState<BicycleType>({
     id: undefined,
@@ -70,7 +71,7 @@ export function AddBicycle() {
     <div>
       <form onSubmit={handleFormSubmit} className="form-horizontal">
         <fieldset>
-          <h1>Add a new bike</h1>
+          <h1 className="addABikeTitle">Add a new bike {user.fullName}</h1>
           {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="title">
@@ -100,6 +101,7 @@ export function AddBicycle() {
                 required
                 id="description"
                 name="description"
+                placeholder="Description (required)"
                 value={newBicycle.description}
                 onChange={handleFormChange}
               >
@@ -287,17 +289,13 @@ export function AddBicycle() {
                 className="form-control"
                 id="other"
                 name="other"
+                placeholder="What else you got?"
                 value={newBicycle.other}
                 onChange={handleFormChange}
-              >
-                What else you got?
-              </textarea>
+              ></textarea>
             </div>
           </div>
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="submit">
-              submit
-            </label>
             <div className="col-md-4">
               <button id="submit" name="submit" className="btn btn-success">
                 Submit

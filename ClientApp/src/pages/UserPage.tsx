@@ -6,8 +6,9 @@ export function UserPage(){
   const user = getUser()
 return (
   <div>
-    <p className="stable"> {user.fullName} Bicycles </p>
-    <Link to="/add" className="addBicycle"><button>Add Bicycle</button>
+    <h1 className="UserStableName">{user.fullName} stable</h1>
+    <Link to="/add" className="addBicycleLink" >
+      <button className="addBicycle">Add Bicycle</button>
     </Link>
   </div>
 )
