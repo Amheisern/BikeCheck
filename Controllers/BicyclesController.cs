@@ -41,7 +41,8 @@ namespace BikeCheck.Controllers
             //  Else is used for the search function 
             if (filter == null)
             {
-                return await _context.Bicycles.OrderBy(row => row.Id)
+                return await _context.Bicycles
+                .OrderBy(row => row.Id)
                 .Include(bicycle => bicycle.Reviews)
                 .ToListAsync();
                 // return await _context.Bicycles.OrderBy(row => row.Id)
@@ -49,7 +50,8 @@ namespace BikeCheck.Controllers
             }
             else
             {
-                return await _context.Bicycles.OrderBy(row => row.Id)
+                return await _context.Bicycles
+                .OrderBy(row => row.Id)
                 .Where(bicycle => bicycle.Title.ToLower()
                 .Contains(filter.ToLower()) || bicycle.Description.ToLower()
                 .Contains(filter.ToLower()))

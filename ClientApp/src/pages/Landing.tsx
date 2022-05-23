@@ -9,10 +9,13 @@ export function Landing() {
   const { data: bicycles = [] } = useQuery<BicycleType[]>(
     ['bicycles', filterText],
     async function () {
-  
-      const url = filterText.length === 0 ? '/api/bicycles' : `/api/bicycles?filter=${filterText}`
-      
-      const response = await fetch(url)
+      const response = await fetch(
+        filterText.length === 0
+          ? '/api/bicycles'
+          : `/api/bicycles?filter=${filterText}`
+      )
+
+      // const response = await fetch(url)
       //Dont need await since it is react query
       return response.json()
     }

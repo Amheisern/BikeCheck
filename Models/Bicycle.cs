@@ -5,11 +5,7 @@ namespace BikeCheck.Models
 {
     public class Bicycle
     {
-        // need to to add something for images?
         public int Id { get; set; }
-        
-        public int UserId { get; set; }
-        public User User { get; set; }
 
         [Required(ErrorMessage = "Please enter a title for your bicycle.")]
         public string Title { get; set; }
@@ -31,8 +27,12 @@ namespace BikeCheck.Models
 
         [MaxLength(500)]
         public string Other { get; set; }
-        
+        public string PhotoURL { get; set; }
+
         public List<Review> Reviews { get; set; }
+
+        public int UserId { get; set; }
+        public User User { get; set; }
 
 
     }

@@ -57,6 +57,9 @@ namespace BikeCheck.Migrations
                     b.Property<string>("Pedals")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhotoURL")
+                        .HasColumnType("text");
+
                     b.Property<string>("RearCog")
                         .HasColumnType("text");
 
@@ -67,10 +70,7 @@ namespace BikeCheck.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("WheelSet")
@@ -78,7 +78,7 @@ namespace BikeCheck.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bicycles");
                 });
@@ -146,8 +146,10 @@ namespace BikeCheck.Migrations
             modelBuilder.Entity("BikeCheck.Models.Bicycle", b =>
                 {
                     b.HasOne("BikeCheck.Models.User", "User")
-                        .WithMany("bicycle")
-                        .HasForeignKey("UserId1");
+                        .WithMany("Bicycles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -178,7 +180,7 @@ namespace BikeCheck.Migrations
 
             modelBuilder.Entity("BikeCheck.Models.User", b =>
                 {
-                    b.Navigation("bicycle");
+                    b.Navigation("Bicycles");
                 });
 #pragma warning restore 612, 618
         }
