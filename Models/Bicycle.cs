@@ -24,10 +24,10 @@ namespace BikeCheck.Models
         public string Crank { get; set; }
         public string WheelSet { get; set; }
         public string Pedals { get; set; }
-
+        public string PhotoURL { get; set; }
         [MaxLength(500)]
         public string Other { get; set; }
-        public string PhotoURL { get; set; }
+
 
         public List<Review> Reviews { get; set; }
 

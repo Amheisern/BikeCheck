@@ -3,6 +3,7 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
 import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType } from '../types'
+import { useDropzone } from 'react-dropzone'
 
 export function AddBicycle() {
   const history = useNavigate()
@@ -25,6 +26,7 @@ export function AddBicycle() {
     pedals: '',
     other: '',
     reviews: [],
+    photoURL: '',
   })
   const [errorMessage, setErrorMessage] = useState('')
 

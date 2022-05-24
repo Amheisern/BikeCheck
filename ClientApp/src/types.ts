@@ -21,6 +21,7 @@ export type BicycleType = {
   wheels: string
   pedals: string
   other: string
+  photoURL: string
   reviews: ReviewType[]
 }
 export type ReviewType = {
@@ -68,4 +69,8 @@ export type LoggedInUser = {
 export type LoginSuccess = {
   token: string
   user: LoggedInUser
+}
+
+export type UploadResponse = {
+  url: string
 }

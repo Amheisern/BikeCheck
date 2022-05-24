@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
-import { BicycleType, CSSStarsProperties, NewReviewType} from '../types'
+import { BicycleType, CSSStarsProperties, NewReviewType } from '../types'
 import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
 import { authHeader, isLoggedIn } from '../auth'
@@ -23,6 +23,7 @@ const NullBicycle: BicycleType = {
   wheels: '',
   pedals: '',
   other: '',
+  photoURL: '',
   reviews: [],
 }
 // const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
