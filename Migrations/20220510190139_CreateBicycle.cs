@@ -27,7 +27,7 @@ namespace BikeCheck.Migrations
                     WheelSet = table.Column<string>(type: "text", nullable: true),
                     Pedals = table.Column<string>(type: "text", nullable: true),
                     Other = table.Column<string>(type: "text", nullable: true),
-                    PhotoURL = table.Column<string>(type: "text", nullable: true)
+                    // PhotoURL = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
