@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router'
 import { BicycleType, CSSStarsProperties, NewReviewType } from '../types'
-import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
 import { authHeader, isLoggedIn } from '../auth'
 // import format from 'date-fns/format'
@@ -90,7 +89,9 @@ export function BicycleDetails() {
   return (
     <div>
       <article>
-        <img src={defaultBikeImage} width="400" height="400" />
+        {bicycle.photoURL ? (
+          <img alt="bicycle Photo" width={400} src={bicycle.photoURL} />
+        ) : null}
         <ul>
           <li>
             <strong>{bicycle.title}</strong>

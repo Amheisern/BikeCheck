@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
 import { authHeader, getUser } from '../auth'
-import { APIError, BicycleType } from '../types'
+import { APIError, BicycleType, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
 
 export function AddBicycle() {
   const history = useNavigate()
   const user = getUser()
 
+  const [isUploading, setIsUploading] = useState(false)
   const [newBicycle, setNewBicycle] = useState<BicycleType>({
     id: undefined,
     userId: undefined,
@@ -67,6 +68,68 @@ export function AddBicycle() {
     const fieldName = event.target.name
     const updatedBicycle = { ...newBicycle, [fieldName]: value }
     setNewBicycle(updatedBicycle)
+  }
+  async function uploadFile(fileToUpload: File) {
+    // Create a formData object so we can send this
+    // to the API that is expecting some form data.
+    const formData = new FormData()
+
+    // Append a field that is the form upload itself
+    formData.append('file', fileToUpload)
+
+    // Use fetch to send an authorization header and
+    // a body containing the form data with the file
+    const response = await fetch('/api/Uploads', {
+      method: 'POST',
+      headers: {
+        Authorization: authHeader(),
+      },
+      body: formData,
+    })
+
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw 'Unable to upload image!'
+    }
+  }
+
+  function onDropFile(acceptedFiles: File[]) {
+    // Do something with the files
+    const fileToUpload = acceptedFiles[0]
+    console.log(fileToUpload)
+    uploadFileMutation.mutate(fileToUpload)
+    setIsUploading(true)
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: onDropFile,
+  })
+
+  const uploadFileMutation = useMutation(uploadFile, {
+    onSuccess: function (apiResponse: UploadResponse) {
+      const url = apiResponse.url
+
+      setNewBicycle({ ...newBicycle, photoURL: url })
+    },
+
+    onError: function (error: string) {
+      setErrorMessage(error)
+    },
+
+    onSettled: function () {
+      setIsUploading(false)
+    },
+  })
+
+  let dropZoneMessage = 'Drag a picture of the restaurant here to upload!'
+
+  if (isUploading) {
+    dropZoneMessage = 'Uploading...'
+  }
+
+  if (isDragActive) {
+    dropZoneMessage = 'Drop the files here ...'
   }
 
   return (
@@ -295,6 +358,21 @@ export function AddBicycle() {
                 value={newBicycle.other}
                 onChange={handleFormChange}
               ></textarea>
+            </div>
+          </div>
+          {newBicycle.photoURL ? (
+            <p className="photo-preview">
+              <img
+                alt="New Bicycle Photo"
+                width={200}
+                src={newBicycle.photoURL}
+              />
+            </p>
+          ) : null}
+          <div className="file-drop-zone">
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {dropZoneMessage}
             </div>
           </div>
           <div className="form-group">
