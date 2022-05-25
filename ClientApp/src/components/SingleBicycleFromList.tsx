@@ -1,6 +1,6 @@
 import React from 'react'
 import { BicycleType } from '../types'
-import defaultBikeImage from '../images/default.jpg'
+// import defaultBikeImage from '../images/default.jpg'
 import defaultUserImage from '../images/logo.png'
 import { Link } from 'react-router-dom'
 
@@ -9,12 +9,11 @@ export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
   return (
     <article>
       <Link to={`/bicycles/${bicycle.id}`}>
-      <img src={defaultBikeImage} width="400" height="400" />
+        <img src={bicycle.photoURL} width="400" height="400" />
       </Link>
       <ul>
         <li>
-          <strong>{bicycle.title}</strong>
-          ({bicycle.reviews?.length})
+          <strong>{bicycle.title}</strong>({bicycle.reviews?.length})
         </li>
         <li>
           <img
