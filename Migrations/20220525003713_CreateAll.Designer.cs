@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BikeCheck.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220515190540_CreateUserAndReviewModel")]
-    partial class CreateUserAndReviewModel
+    [Migration("20220525003713_CreateAll")]
+    partial class CreateAll
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,9 @@ namespace BikeCheck.Migrations
                     b.Property<string>("Pedals")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhotoURL")
+                        .HasColumnType("text");
+
                     b.Property<string>("RearCog")
                         .HasColumnType("text");
 
@@ -69,10 +72,7 @@ namespace BikeCheck.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("WheelSet")
@@ -80,7 +80,7 @@ namespace BikeCheck.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bicycles");
                 });
@@ -139,14 +139,19 @@ namespace BikeCheck.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("BikeCheck.Models.Bicycle", b =>
                 {
                     b.HasOne("BikeCheck.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithMany("Bicycles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -154,13 +159,13 @@ namespace BikeCheck.Migrations
             modelBuilder.Entity("BikeCheck.Models.Review", b =>
                 {
                     b.HasOne("BikeCheck.Models.Bicycle", "Bicycle")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("BicycleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BikeCheck.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -168,6 +173,18 @@ namespace BikeCheck.Migrations
                     b.Navigation("Bicycle");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BikeCheck.Models.Bicycle", b =>
+                {
+                    b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("BikeCheck.Models.User", b =>
+                {
+                    b.Navigation("Bicycles");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

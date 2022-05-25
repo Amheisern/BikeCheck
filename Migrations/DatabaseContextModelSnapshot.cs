@@ -163,7 +163,7 @@ namespace BikeCheck.Migrations
                         .IsRequired();
 
                     b.HasOne("BikeCheck.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -181,6 +181,8 @@ namespace BikeCheck.Migrations
             modelBuilder.Entity("BikeCheck.Models.User", b =>
                 {
                     b.Navigation("Bicycles");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

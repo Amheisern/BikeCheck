@@ -6,13 +6,10 @@ namespace BikeCheck.Models
     public class Bicycle
     {
         public int Id { get; set; }
-
         [Required(ErrorMessage = "Please enter a title for your bicycle.")]
         public string Title { get; set; }
-
         [Required(ErrorMessage = "Please enter a description for your bicycle."), MaxLength(500)]
         public string Description { get; set; }
-
         [MaxLength(100)]
         public string Frame { get; set; }
         public string Fork { get; set; }
@@ -27,10 +24,7 @@ namespace BikeCheck.Models
         public string PhotoURL { get; set; }
         [MaxLength(500)]
         public string Other { get; set; }
-
-
         public List<Review> Reviews { get; set; }
-
         public int UserId { get; set; }
         public User User { get; set; }
 

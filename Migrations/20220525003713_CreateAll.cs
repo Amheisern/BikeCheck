@@ -4,16 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BikeCheck.Migrations
 {
-    public partial class CreateUserAndReviewModel : Migration
+    public partial class CreateAll : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "UserId1",
-                table: "Bicycles",
-                type: "integer",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -27,6 +21,39 @@ namespace BikeCheck.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bicycles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    Frame = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Fork = table.Column<string>(type: "text", nullable: true),
+                    Saddle = table.Column<string>(type: "text", nullable: true),
+                    Handlebar = table.Column<string>(type: "text", nullable: true),
+                    BottomBracket = table.Column<string>(type: "text", nullable: true),
+                    ChainRing = table.Column<string>(type: "text", nullable: true),
+                    RearCog = table.Column<string>(type: "text", nullable: true),
+                    Crank = table.Column<string>(type: "text", nullable: true),
+                    WheelSet = table.Column<string>(type: "text", nullable: true),
+                    Pedals = table.Column<string>(type: "text", nullable: true),
+                    PhotoURL = table.Column<string>(type: "text", nullable: true),
+                    Other = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bicycles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bicycles_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,9 +87,9 @@ namespace BikeCheck.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bicycles_UserId1",
+                name: "IX_Bicycles_UserId",
                 table: "Bicycles",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BicycleId",
@@ -74,34 +101,23 @@ namespace BikeCheck.Migrations
                 table: "Reviews",
                 column: "UserId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Bicycles_Users_UserId1",
-                table: "Bicycles",
-                column: "UserId1",
-                principalTable: "Users",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Bicycles_Users_UserId1",
-                table: "Bicycles");
-
             migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
+                name: "Bicycles");
+
+            migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Bicycles_UserId1",
-                table: "Bicycles");
-
-            migrationBuilder.DropColumn(
-                name: "UserId1",
-                table: "Bicycles");
         }
     }
 }
