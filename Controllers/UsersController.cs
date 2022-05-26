@@ -48,12 +48,12 @@ namespace BikeCheck.Controllers
         public async Task<ActionResult<User>> GetUser(int id)
         {
             // Find the user in the database using `FindAsync` to look it up by id
-            // var user = await _context.Users
-            // .Where(user => user.Id == id)
-            // .Include(user => user.Bicycles)
-            // .FirstOrDefaultAsync();
+            var user = await _context.Users
+            .Where(user => user.Id == id)
+            .Include(user => user.Bicycles)
+            .FirstOrDefaultAsync();
 
-            var user = await _context.Users.FindAsync(id);
+            // var user = await _context.Users.FindAsync(id);
 
             // If we didn't find anything, we receive a `null` in return
             if (user == null)
