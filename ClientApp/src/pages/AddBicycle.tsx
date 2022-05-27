@@ -48,7 +48,7 @@ export function AddBicycle() {
   }
   const createNewBicycle = useMutation(submitNewBicycle, {
     onSuccess: () => {
-      history('/')
+      history('/user/${user.id}')
       // I will need to change this redirection to a users page
     },
     onError: function (apiError: APIError) {

@@ -17,6 +17,7 @@ namespace BikeCheck.Models
         // Define a property for being able to _set_ a password
         public List<Bicycle> Bicycles { get; set; }
         public List<Review> Reviews { get; set; }
+        public string PhotoURL { get; set; }
 
 
         public string Password

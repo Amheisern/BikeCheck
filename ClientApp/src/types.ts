@@ -54,16 +54,19 @@ export type NewUserType = {
   password: string
   email: string
   fullName?: string
+  photoURL?: string
 }
 
 export type LoginUserType = {
   email: string
   password: string
+  photoURL?: string
 }
 export type LoggedInUser = {
   id: number | undefined
   fullName: string
   email: string
+  photoURL?: string
   bicycles: BicycleType[]
 }
 
