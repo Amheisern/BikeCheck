@@ -93,7 +93,7 @@ export function BicycleDetails() {
           <img alt="bicycle Photo" width={400} src={bicycle.photoURL} />
         ) : null}
         <ul>
-          <li>
+          <div>
             <strong>{bicycle.title}</strong>
             {bicycle.reviews?.map((reviews) => (
               <li key={reviews?.id}>
@@ -105,7 +105,7 @@ export function BicycleDetails() {
                 ></span>
               </li>
             ))}
-          </li>
+          </div>
           <li>
             <img
               src={defaultUserImage}

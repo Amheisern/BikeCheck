@@ -61,9 +61,10 @@ export type LoginUserType = {
   password: string
 }
 export type LoggedInUser = {
-  id: number
+  id: number | undefined
   fullName: string
   email: string
+  bicycles: BicycleType[]
 }
 
 export type LoginSuccess = {

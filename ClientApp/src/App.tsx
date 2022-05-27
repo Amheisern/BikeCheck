@@ -11,14 +11,13 @@ import { SignIn } from './pages/Signin'
 import { UserPage } from './pages/UserPage'
 import { getUser, isLoggedIn, logout } from './auth'
 
-
 function LoggedInNav() {
-    const user = getUser()
-    function handleLogout() {
-      logout()
+  const user = getUser()
+  function handleLogout() {
+    logout()
 
-      window.location.assign('/')
-    }
+    window.location.assign('/')
+  }
   return (
     <>
       <a
@@ -27,31 +26,30 @@ function LoggedInNav() {
         onClick={function (event) {
           event.preventDefault()
           handleLogout()
-        }}>
+        }}
+      >
         Sign out
       </a>
-      <Link to="/user/{id}">
-      <p className="stable"> {user.fullName} Bicycles </p>
+      <Link to={`/user/${user.id}`}>
+        <p className="stable"> {user.fullName} Bicycles </p>
       </Link>
     </>
   )
 }
-function SignoutNav(){
-return (
-  <>
-
+function SignoutNav() {
+  return (
+    <>
       <Link to="/signin" className="signIn">
         Sign In
       </Link>
       <Link to="/signup" className="SignUp">
         Sign Up
       </Link>
-  </>
-)
+    </>
+  )
 }
 
 export function App() {
-
   return (
     <div>
       <header>
@@ -61,7 +59,6 @@ export function App() {
         <div className="loggingNav">
           {isLoggedIn() ? <LoggedInNav /> : <SignoutNav />}
         </div>
-      
       </header>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -70,7 +67,6 @@ export function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user/:id" element={<UserPage />} />
-      
       </Routes>
       <footer>
         <div className="footer">
