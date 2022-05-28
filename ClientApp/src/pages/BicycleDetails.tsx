@@ -125,7 +125,17 @@ export function BicycleDetails() {
           <div>
             <strong>{bicycle.title}</strong>
             {bicycle.reviews?.map((reviews) => (
-              <li key={reviews?.id}>{bicycle.reviews.length}</li>
+              <li key={reviews?.id}>
+                <div className="author">
+                  <a href={`mailto:${reviews.user.email}`}>
+                    {reviews.user.fullName}
+                  </a>{' '}
+                  said: <em>{reviews.summary}</em>
+                </div>
+                <div className="body">
+                  <p>{reviews.body}</p>
+                </div>
+              </li>
             ))}
           </div>
           <li>
