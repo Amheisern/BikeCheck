@@ -22,7 +22,7 @@ namespace BikeCheck.Controllers
         // This is the variable you use to have access to your database
         private readonly DatabaseContext _context;
 
-        // Constructor that recives a reference to your database context
+        // Constructor that receives a reference to your database context
         // and stores it in _context for you to use in your API methods
         public BicyclesController(DatabaseContext context)
         {
@@ -181,6 +181,15 @@ namespace BikeCheck.Controllers
             {
                 // There wasn't a bicycle with that id so return a `404` not found
                 return NotFound();
+            }
+            if (bicycle.UserId != GetCurrentUserId())
+            {
+                var response = new
+                {
+                    status = 400,
+                    error = new List<string>() { "You are not authorized to delete this bicycle." }
+                };
+                return Unauthorized();
             }
 
             // Tell the database we want to remove this record
