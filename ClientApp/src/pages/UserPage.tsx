@@ -156,8 +156,8 @@ if (isDragActive) {
           <div key={bicycle.id}>
             <Link to={`/bicycles/${bicycle.id}`}>
               <h2>{bicycle.title}</h2>
+              <img width={300} src={bicycle.photoURL} alt={bicycle.title} />
             </Link>
-            <img src={bicycle.photoURL} alt={bicycle.title} />
           </div>
         ))}
       </article>

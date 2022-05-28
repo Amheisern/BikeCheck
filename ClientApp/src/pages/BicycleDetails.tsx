@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { useParams } from 'react-router'
-import { BicycleType, CSSStarsProperties, NewReviewType } from '../types'
+import { useNavigate, useParams } from 'react-router'
+import { BicycleType, NewReviewType } from '../types'
 import defaultUserImage from '../images/logo.png'
-import { authHeader, isLoggedIn } from '../auth'
+import { authHeader, getUserId, isLoggedIn } from '../auth'
 // import format from 'date-fns/format'
 
 const NullBicycle: BicycleType = {
@@ -29,6 +29,7 @@ const NullBicycle: BicycleType = {
 
 export function BicycleDetails() {
   const { id } = useParams<{ id: string }>()
+  // const user = getUser()
   const [newReview, setNewReview] = useState<NewReviewType>({
     id: undefined,
     body: '',
@@ -37,6 +38,8 @@ export function BicycleDetails() {
     createdAt: new Date(),
     bicycleId: Number(id),
   })
+
+  const history = useNavigate()
 
   const { refetch, data: bicycle = NullBicycle } = useQuery<BicycleType>(
     ['one-bicycle', id],
@@ -64,6 +67,13 @@ export function BicycleDetails() {
       setNewReview({ ...newReview, body: '', stars: 5, summary: '' })
     },
   })
+  async function handleSubmitNewReview(
+    event: React.FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault()
+    createNewReview.mutate(newReview)
+  }
+
   function handleNewReviewTextFieldChange(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
@@ -86,6 +96,25 @@ export function BicycleDetails() {
       throw await response.json()
     }
   }
+
+  async function handleDeleteBicycle(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const response = await fetch(`/api/bicycles/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: authHeader(),
+      },
+    })
+    if (response.status === 200 || response.status === 204) {
+      history('/')
+    }
+  }
+  // ;(event) => {
+  //   event.preventDefault()
+  //   createNewReview.mutate(newReview)
+  // }
   return (
     <div>
       <article>
@@ -96,14 +125,7 @@ export function BicycleDetails() {
           <div>
             <strong>{bicycle.title}</strong>
             {bicycle.reviews?.map((reviews) => (
-              <li key={reviews?.id}>
-                {bicycle.reviews.length}
-                <span
-                  className="stars"
-                  style={{ '--rating': reviews?.stars } as CSSStarsProperties}
-                  aria-label={`Star rating of this bike is ${reviews?.stars} out of 5.`}
-                ></span>
-              </li>
+              <li key={reviews?.id}>{bicycle.reviews.length}</li>
             ))}
           </div>
           <li>
@@ -115,14 +137,14 @@ export function BicycleDetails() {
             />
           </li>
         </ul>
+        {bicycle.userId === getUserId() ? (
+          <form onSubmit={handleDeleteBicycle}>
+            <button>Delete Bicycle</button>
+          </form>
+        ) : null}
       </article>
       {isLoggedIn() ? (
-        <form
-          onSubmit={(event) => {
-            event.preventDefault()
-            createNewReview.mutate(newReview)
-          }}
-        >
+        <form onSubmit={handleSubmitNewReview}>
           <h3>Leave a review</h3>
           <p>Remember be positive. Spread happiness</p>
 
