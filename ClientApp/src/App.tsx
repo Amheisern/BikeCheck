@@ -9,6 +9,7 @@ import { BicycleDetails } from './pages/BicycleDetails'
 import { SignUp } from './pages/Signup'
 import { SignIn } from './pages/Signin'
 import { UserPage } from './pages/UserPage'
+import { EditBicycle } from './pages/EditBicycle'
 import { getUser, isLoggedIn, logout } from './auth'
 
 function LoggedInNav() {
@@ -67,6 +68,7 @@ export function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user/:id" element={<UserPage />} />
+        <Route path="/bicycles/:id/edit" element={<EditBicycle />} />
       </Routes>
       <footer>
         <div className="footer">

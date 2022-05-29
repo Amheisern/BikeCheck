@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router'
 import { BicycleType, NewReviewType } from '../types'
 import defaultUserImage from '../images/logo.png'
 import { authHeader, getUserId, isLoggedIn } from '../auth'
+import { Link } from 'react-router-dom'
 // import format from 'date-fns/format'
 
 const NullBicycle: BicycleType = {
@@ -149,7 +150,14 @@ export function BicycleDetails() {
         </ul>
         {bicycle.userId === getUserId() ? (
           <form onSubmit={handleDeleteBicycle}>
-            <button>Delete Bicycle</button>
+            <p>
+              <button>Delete Bicycle</button>
+            </p>
+            <p>
+              <Link className="button" to={`/restaurants/${id}/edit`}>
+                <button> Edit Bicycle </button>
+              </Link>
+            </p>
           </form>
         ) : null}
       </article>
