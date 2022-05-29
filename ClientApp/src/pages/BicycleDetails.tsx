@@ -154,7 +154,7 @@ export function BicycleDetails() {
               <button>Delete Bicycle</button>
             </p>
             <p>
-              <Link className="button" to={`/restaurants/${id}/edit`}>
+              <Link className="button" to={`/bicycles/${id}/edit`}>
                 <button> Edit Bicycle </button>
               </Link>
             </p>
@@ -185,7 +185,6 @@ export function BicycleDetails() {
               onChange={handleNewReviewTextFieldChange}
             ></textarea>
           </p>
-
           <button id="submit" name="submit" className="btn btn-success">
             Submit
           </button>

@@ -5,14 +5,13 @@ import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
 
-
 export function EditBicycle() {
   const { id } = useParams<{ id: string }>()
   const history = useNavigate()
   const user = getUser()
 
   const [isUploading, setIsUploading] = useState(false)
- 
+
   const [updateBicycle, setUpdateBicycle] = useState<BicycleType>({
     id: undefined,
     userId: undefined,
@@ -33,25 +32,21 @@ export function EditBicycle() {
     photoURL: '',
   })
 
-    useQuery<BicycleType>(
-      ['one-bicycle', id],
-      () => loadBicycleDetails(),
-      {
-        onSuccess: function (bicycleBeingLoaded) {
-          setUpdateBicycle(bicycleBeingLoaded)
-      }
-    }  
-    )
+  useQuery<BicycleType>(['one-bicycle', id], () => loadBicycleDetails(), {
+    onSuccess: function (bicycleBeingLoaded) {
+      setUpdateBicycle(bicycleBeingLoaded)
+    },
+  })
   const [errorMessage, setErrorMessage] = useState('')
 
- async function loadBicycleDetails() {
-   const response = await fetch(`/api/bicycles/${id}`)
-   if (response.ok) {
-     return response.json()
-   } else {
-     throw await response.json()
-   }
- }
+  async function loadBicycleDetails() {
+    const response = await fetch(`/api/bicycles/${id}`)
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw await response.json()
+    }
+  }
   async function submitEditedNewBicycle(BicycleToUpdate: BicycleType) {
     const response = await fetch(`/api/bicycles/${BicycleToUpdate.id}`, {
       method: 'PUT',
@@ -157,7 +152,9 @@ export function EditBicycle() {
     <div>
       <form onSubmit={handleFormSubmit} className="form-horizontal">
         <fieldset>
-          <h1 className="addABikeTitle">edit  {user.fullName} {updateBicycle.title }</h1>
+          <h1 className="addABikeTitle">
+            edit {user.fullName} {updateBicycle.title}
+          </h1>
           {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="title">
@@ -212,7 +209,6 @@ export function EditBicycle() {
               />
             </div>
           </div>
-
           <div className="form-group">
             <label className="col-md-4 control-label" htmlFor="fork">
               Fork
@@ -398,9 +394,27 @@ export function EditBicycle() {
           </div>
           <div className="form-group">
             <div className="col-md-4">
-              <button id="submit" name="submit" className="btn btn-success">
-                Submit
-              </button>
+              {updateBicycle.photoURL ? (
+                <p>
+                  {' '}
+                  <button
+                    onClick={function (event) {
+                      event.preventDefault()
+                      setUpdateBicycle({
+                        ...updateBicycle,
+                        photoURL: '',
+                      })
+                    }}
+                  >
+                    Remove photo
+                  </button>
+                </p>
+              ) : null}
+              <p>
+                <button id="submit" name="submit" className="btn btn-success">
+                  Submit
+                </button>
+              </p>
             </div>
           </div>
         </fieldset>
