@@ -412,7 +412,7 @@ export function EditBicycle() {
               ) : null}
               <p>
                 <button id="submit" name="submit" className="btn btn-success">
-                  Submit
+                  Save
                 </button>
               </p>
             </div>

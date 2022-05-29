@@ -32,7 +32,7 @@ function LoggedInNav() {
         Sign out
       </a>
       <Link to={`/user/${user.id}`}>
-        <p className="stable"> {user.fullName} Bicycles </p>
+        <p className="stable"> {user.fullName} {user.photoURL} Bicycles </p>
       </Link>
     </>
   )

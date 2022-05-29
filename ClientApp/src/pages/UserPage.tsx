@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 // import { useQuery } from 'react-query'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { authHeader, getUser } from '../auth'
-import { BicycleType, LoggedInUser, UploadResponse, APIError} from '../types'
+import { BicycleType, LoggedInUser, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
 import { useMutation } from 'react-query'
-
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
   const user = getUser()
-  const history = useNavigate()
+  // const history = useNavigate()
 
   const [isUploading, setIsUploading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -35,65 +34,81 @@ export function UserPage() {
     loadUserDetails()
   }, [id])
 
-  async function UserAvatar(UserAvatarSet: LoggedInUser) {
-    const response = await fetch(`/api/users/${id}`, {
-      method: 'PUT',
+
+ 
+    async function userAvatar() {
+      const responseOptions = {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json',
+       Authorization: authHeader() },
+        body: JSON.stringify({photoURL: "photoURL"}),
+      }
+      const response = await fetch(`/api/users/${id}`, responseOptions)
+      const data = await response.json()
+      setUpdateUser(data)
+    }
+   
+ 
+
+  // async function UserAvatar(UserAvatarSet: LoggedInUser) {
+  //   const response = await fetch(`/api/users/${id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: authHeader(),
+  //     },
+  //     body: JSON.stringify(UserAvatarSet),
+  //   })
+  //   if (response.ok) {
+  //     const data = await response.json()
+  //     setUpdateUser(data.photoURL)
+  //   } else {
+  //     setErrorMessage('Error updating user')
+  //   }
+  // }
+
+  // const createUserAvatar = useMutation(UserAvatar, {
+  //   onSuccess: () => {
+  //     history('/')
+  //   },
+  //   onError: function (apiError: APIError) {
+  //     setErrorMessage(Object.values(apiError.errors).join('/'))
+  //   },
+  // })
+  // async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+  //   event.preventDefault()
+  //   createUserAvatar.mutate(updateUser)
+  // }
+
+  async function uploadFile(fileToUpload: File) {
+    // Create a formData object so we can send this
+    // to the API that is expecting some form data.
+    const formData = new FormData()
+
+    // Append a field that is the form upload itself
+    formData.append('file', fileToUpload)
+
+    // Use fetch to send an authorization header and
+    // a body containing the form data with the file
+    const response = await fetch('/api/Uploads', {
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: authHeader(),
       },
-      body: JSON.stringify(UserAvatarSet),
+      body: formData,
     })
+
     if (response.ok) {
-      const data = await response.json()
-      setUpdateUser(data.photoURL)
+      return response.json()
     } else {
-      setErrorMessage('Error updating user')
+      throw 'Unable to upload image!'
     }
   }
 
-  const createUserAvatar = useMutation(UserAvatar, {
-    onSuccess: () => {
-      history('/user/${user.id}')
-    },
-    onError: function (apiError: APIError) {
-      setErrorMessage(Object.values(apiError.errors).join('/'))
-    },
-  })
-  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    createUserAvatar.mutate(updateUser)
-  }
-  
-    async function uploadFile(fileToUpload: File) {
-      // Create a formData object so we can send this
-      // to the API that is expecting some form data.
-      const formData = new FormData()
-
-      // Append a field that is the form upload itself
-      formData.append('file', fileToUpload)
-
-      // Use fetch to send an authorization header and
-      // a body containing the form data with the file
-      const response = await fetch('/api/Uploads', {
-        method: 'POST',
-        headers: {
-          Authorization: authHeader(),
-        },
-        body: formData,
-      })
-
-      if (response.ok) {
-        return response.json()
-      } else {
-        throw 'Unable to upload image!'
-      }
-    }
-
- async function onDropFile(acceptedFiles: File[]) {
+  async function onDropFile(acceptedFiles: File[]) {
     // Do something with the files
     const fileToUpload = acceptedFiles[0]
-    console.log(fileToUpload);
+    console.log(fileToUpload)
     uploadFileMutation.mutate(fileToUpload)
     setIsUploading(true)
   }
@@ -102,37 +117,33 @@ export function UserPage() {
     onDrop: onDropFile,
   })
 
-   const uploadFileMutation = useMutation(uploadFile, {
-     onSuccess: function (apiResponse: UploadResponse) {
-       const url = apiResponse.url
+  const uploadFileMutation = useMutation(uploadFile, {
+    onSuccess: function (apiResponse: UploadResponse) {
+      const url = apiResponse.url
 
-       setUpdateUser({ ...updateUser, photoURL: url })
-     },
+      setUpdateUser({ ...updateUser, photoURL: url })
+    },
 
-     onError: function (error: string) {
-       setErrorMessage(error)
-     },
+    onError: function (error: string) {
+      setErrorMessage(error)
+    },
 
-     onSettled: function () {
-       setIsUploading(false)
-     },
-   })
-let dropZoneMessage = 'Drag a picture of the user here to upload!'
-if (isUploading) {
-  dropZoneMessage = 'Uploading...'
-}
-if (isDragActive) {
-  dropZoneMessage = 'Drop the files here ...'
-}
+    onSettled: function () {
+      setIsUploading(false)
+    },
+  })
+  let dropZoneMessage = 'Drag a picture of the user here to upload!'
+  if (isUploading) {
+    dropZoneMessage = 'Uploading...'
+  }
+  if (isDragActive) {
+    dropZoneMessage = 'Drop the files here ...'
+  }
 
   return (
     <div>
       <h1 className="UserStableName">{user.fullName} stable</h1>
-      <Link to="/add" className="addBicycleLink">
-        <button className="addBicycle">Add User Image</button>
-      </Link>
-      <form onSubmit={handleFormSubmit} className="UserAvatarSubmit">
-        <h1>user image </h1>
+      <form onSubmit={userAvatar} className="UserAvatarSubmit">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <div className="file-drop-zone">
           <div {...getRootProps()}>
