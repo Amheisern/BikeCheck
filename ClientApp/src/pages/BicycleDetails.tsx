@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router'
 import { BicycleType, NewReviewType } from '../types'
-import defaultUserImage from '../images/logo.png'
+// import defaultUserImage from '../images/logo.png'
 import { authHeader, getUserId, isLoggedIn } from '../auth'
 import { Link } from 'react-router-dom'
 import { NullBicycle, submitNewReview } from '../api'
-import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
+// import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
 // import format from 'date-fns/format'
-
 
 // const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
 
@@ -30,7 +29,7 @@ export function BicycleDetails() {
     ['one-bicycle', id],
     () => loadBicycleDetails()
   )
-  
+
   const createNewReview = useMutation(submitNewReview, {
     onSuccess: () => {
       refetch()
@@ -52,7 +51,6 @@ export function BicycleDetails() {
     const value = event.target.value
     setNewReview({ ...newReview, [name]: value })
   }
-
 
   async function loadBicycleDetails() {
     const response = await fetch(`/api/bicycles/${id}`)
@@ -83,25 +81,43 @@ export function BicycleDetails() {
   // }
   return (
     <div>
-      <article>
+      <article className="bikePhoto">
+        <div className="bikePhoto">
         {bicycle.photoURL ? (
           <img
             alt="bicycle Photo"
             width={400}
             src={bicycle.photoURL}
-            onError={bicycleImageOnErrorHandler}
           />
         ) : null}
-        <ul>
+        </div>
+        <div className="bikeSection">
+          <strong>{bicycle.title}</strong>
+          <p>{bicycle.description}</p>
+          <ul className="bikeDetails">
+            <li>Frame: {bicycle.frame}</li>
+            <li>Fork: {bicycle.fork}</li>
+            <li>Saddle: {bicycle.saddle}</li>
+            <li>Handlebars: {bicycle.handlebar}</li>
+            <li>Bottom Bracket: {bicycle.bottomBracket}</li>
+            <li>Chain Ring: {bicycle.chainRing}</li>
+            <li>Rear Cog: {bicycle.rearCog}</li>
+            <li>Crank: {bicycle.crank}</li>
+            <li>Wheel Set: {bicycle.wheelSet}</li>
+            <li>Pedals: {bicycle.pedals}</li>
+            <li>Other: {bicycle.other}</li>
+          </ul>
+        </div>
+        <ul className="reviewsSection">
           <div>
-            <strong>{bicycle.title}</strong>
             {bicycle.reviews?.map((reviews) => (
               <li key={reviews?.id}>
                 <div className="author">
                   <a href={`mailto:${reviews.user.email}`}>
                     {reviews.user.fullName}
                   </a>{' '}
-                  said: <em>{reviews.summary}</em>
+                  said: <em>{reviews.summary}</em> on:{' '}
+                  {new Date(reviews.createdAt).toLocaleDateString()}
                 </div>
                 <div className="body">
                   <p>{reviews.body}</p>
@@ -109,33 +125,25 @@ export function BicycleDetails() {
               </li>
             ))}
           </div>
-          <li>
-            <img
-              src={defaultUserImage}
-              width="24px"
-              height="24px"
-              alt="chubbmo"
-            />
-          </li>
         </ul>
         {bicycle.userId === getUserId() ? (
-          <form onSubmit={handleDeleteBicycle}>
+          <form className="biDetailButtons" onSubmit={handleDeleteBicycle}>
             <p>
-              <button>Delete Bicycle</button>
+              <button className="deleteButton">Delete Bicycle</button>
             </p>
             <p>
               <Link className="button" to={`/bicycles/${id}/edit`}>
-                <button> Edit Bicycle </button>
+                <button className="editButton"> Edit Bicycle </button>
               </Link>
             </p>
           </form>
         ) : null}
       </article>
+      <hr></hr>
       {isLoggedIn() ? (
-        <form onSubmit={handleSubmitNewReview}>
+        <form className="reviewForm" onSubmit={handleSubmitNewReview}>
           <h3>Leave a review</h3>
           <p>Remember be positive. Spread happiness</p>
-
           <p className="form-input">
             <label htmlFor="summary">Summary</label>
             <input

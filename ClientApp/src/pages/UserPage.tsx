@@ -5,7 +5,7 @@ import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType, LoggedInUser, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
 import { useMutation } from 'react-query'
-import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
+// import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
@@ -180,7 +180,7 @@ setUpdateUser(updatedUser)
       setIsUploading(false)
     },
   })
-  let dropZoneMessage = 'Drag a picture of the user here to upload!'
+  let dropZoneMessage = 'Drag a user pic here'
   if (isUploading) {
     dropZoneMessage = 'Uploading...'
   }
@@ -190,13 +190,13 @@ setUpdateUser(updatedUser)
  
   return (
     <div>
-      <h1 className="UserStableName">{user.fullName} stable</h1>
-      <Link to="/add"><button className="AddBicycleButton">Add Bicycle</button></Link>
-      <form onSubmit={handleFormSubmit} className="UserAvatarSubmit">
+      <div className="userContainer">
+      <h1 className="userStableName">{user.fullName} stable</h1>
+      <form onSubmit={handleFormSubmit} className="userAvatarSubmit">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <div className="file-drop-zone">
           <div {...getRootProps()}>
-            <input name="photoURL" value={updateUser.photoURL} onChange={handleFormChange}{...getInputProps()} />
+            <input name="photoURL" className="dragNDrop" value={updateUser.photoURL} onChange={handleFormChange}{...getInputProps()} />
             {dropZoneMessage}
           </div>
         </div>
@@ -211,21 +211,26 @@ setUpdateUser(updatedUser)
           Submit
         </button>
       </form>
-      <article>
+      </div>
+      <hr></hr>
+          <Link to="/add"><button className="AddBicycleButton">Add Bicycle</button></Link>
+      <section>
         {bicycles.map((bicycle) => (
           <div key={bicycle.id}>
             <Link to={`/bicycles/${bicycle.id}`}>
+              <article className="bicycleCard">
               <h2>{bicycle.title}</h2>
               <img
                 width={300}
                 src={bicycle.photoURL}
-                onError={bicycleImageOnErrorHandler}
+                className="user-page-bikes"
                 alt={bicycle.title}
               />
+              </article>
             </Link>
           </div>
         ))}
-      </article>
+      </section>
     </div>
   )
 }

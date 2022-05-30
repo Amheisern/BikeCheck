@@ -17,7 +17,7 @@ export function Landing() {
 
       // const response = await fetch(url)
       //Dont need await since it is react query
-      return response.json()
+      return response.json() 
     }
   )
 
