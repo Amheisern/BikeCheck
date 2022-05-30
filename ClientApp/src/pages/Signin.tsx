@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
+import { loginUser } from '../api'
 import { recordAuthentication } from '../auth'
-import { APIError, LoginSuccess, LoginUserType } from '../types'
+import { APIError, LoginUserType } from '../types'
 
 export function SignIn() {
   const [errorMessage, setErrorMessage] = useState('')
@@ -22,18 +23,7 @@ export function SignIn() {
     },
   })
 
-  async function loginUser(user: LoginUserType): Promise<LoginSuccess> {
-    const response = await fetch('/api/Session', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(user),
-    })
-    if (response.ok) {
-      return response.json()
-    } else {
-      throw await response.json()
-    }
-  }
+
 
   function handleStringFieldChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router'
 import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
+import { submitEditedNewBicycle } from '../api'
 
 export function EditBicycle() {
   const { id } = useParams<{ id: string }>()
@@ -47,21 +48,7 @@ export function EditBicycle() {
       throw await response.json()
     }
   }
-  async function submitEditedNewBicycle(BicycleToUpdate: BicycleType) {
-    const response = await fetch(`/api/bicycles/${BicycleToUpdate.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: authHeader(),
-      },
-      body: JSON.stringify(BicycleToUpdate),
-    })
-    if (response.ok) {
-      return response.json()
-    } else {
-      throw await response.json()
-    }
-  }
+
   const createNewBicycle = useMutation(submitEditedNewBicycle, {
     onSuccess: () => {
       history('/')

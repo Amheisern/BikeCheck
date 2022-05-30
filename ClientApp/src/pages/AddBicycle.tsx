@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
+import { submitNewBicycle } from '../api'
 
 export function AddBicycle() {
   const history = useNavigate()
@@ -31,24 +32,11 @@ export function AddBicycle() {
   })
   const [errorMessage, setErrorMessage] = useState('')
 
-  async function submitNewBicycle(BicycleToCreate: BicycleType) {
-    const response = await fetch('/api/bicycles', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: authHeader(),
-      },
-      body: JSON.stringify(BicycleToCreate),
-    })
-    if (response.ok) {
-      return response.json()
-    } else {
-      throw await response.json()
-    }
-  }
+  
   const createNewBicycle = useMutation(submitNewBicycle, {
     onSuccess: () => {
-      history('/user/${user.id}')
+      history('/')
+      // '/user/${user.id}'
       // I will need to change this redirection to a users page
     },
     onError: function (apiError: APIError) {

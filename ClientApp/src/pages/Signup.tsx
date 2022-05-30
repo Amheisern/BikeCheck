@@ -1,22 +1,10 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
+import { submitNewUser } from '../api'
 import { APIError, NewUserType } from '../types'
 
-async function submitNewUser(newUser: NewUserType) {
-  const response = await fetch('/api/Users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newUser),
-  })
-  if (response.ok) {
-    return response.json() 
-  } else {
-    throw await response.json()
-  }
-}
+
 
 export function SignUp() {
   const history = useNavigate()

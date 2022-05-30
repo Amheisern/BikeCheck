@@ -5,27 +5,10 @@ import { BicycleType, NewReviewType } from '../types'
 import defaultUserImage from '../images/logo.png'
 import { authHeader, getUserId, isLoggedIn } from '../auth'
 import { Link } from 'react-router-dom'
+import { NullBicycle, submitNewReview } from '../api'
 // import format from 'date-fns/format'
 
-const NullBicycle: BicycleType = {
-  id: undefined,
-  userId: undefined,
-  title: '',
-  description: '',
-  frame: '',
-  fork: '',
-  saddle: '',
-  handlebar: '',
-  bottomBracket: '',
-  chainRing: '',
-  rearCog: '',
-  crank: '',
-  wheels: '',
-  pedals: '',
-  other: '',
-  photoURL: '',
-  reviews: [],
-}
+
 // const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
 
 export function BicycleDetails() {
@@ -46,21 +29,7 @@ export function BicycleDetails() {
     ['one-bicycle', id],
     () => loadBicycleDetails()
   )
-  async function submitNewReview(review: NewReviewType) {
-    const response = await fetch('/api/reviews', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: authHeader(),
-      },
-      body: JSON.stringify(review),
-    })
-    if (response.ok) {
-      return response.json()
-    } else {
-      throw await response.json()
-    }
-  }
+  
   const createNewReview = useMutation(submitNewReview, {
     onSuccess: () => {
       refetch()
@@ -83,11 +52,6 @@ export function BicycleDetails() {
     setNewReview({ ...newReview, [name]: value })
   }
 
-  // need to figure out if i want and how to implement a rating System
-  // Not a fan of the current one.
-  // function handleNewReviewStarsChange(newStars: number) {
-  //   setNewReview({ ...newReview, stars: newStars })
-  // }
 
   async function loadBicycleDetails() {
     const response = await fetch(`/api/bicycles/${id}`)

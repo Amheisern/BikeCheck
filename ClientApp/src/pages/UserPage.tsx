@@ -34,21 +34,22 @@ export function UserPage() {
     loadUserDetails()
   }, [id])
 
-
- 
-    async function userAvatar() {
-      const responseOptions = {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json',
-       Authorization: authHeader() },
-        body: JSON.stringify({photoURL: "photoURL"}),
-      }
-      const response = await fetch(`/api/users/${id}`, responseOptions)
-      const data = await response.json()
-      setUpdateUser(data)
+  async function userAvatar( updateUser: LoggedInUser) {
+    const responseOptions = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authHeader(),
+      },
+      body: JSON.stringify({ photoURL: 'photoURL' }),
     }
-   
- 
+    fetch(`/api/users/${updateUser.id}`, responseOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        setUpdateUser(data)
+      })
+      console.log(setUpdateUser)
+  }
 
   // async function UserAvatar(UserAvatarSet: LoggedInUser) {
   //   const response = await fetch(`/api/users/${id}`, {
@@ -139,11 +140,11 @@ export function UserPage() {
   if (isDragActive) {
     dropZoneMessage = 'Drop the files here ...'
   }
-
+ 
   return (
     <div>
       <h1 className="UserStableName">{user.fullName} stable</h1>
-      <form onSubmit={userAvatar} className="UserAvatarSubmit">
+      <form onSubmit={() =>userAvatar} className="UserAvatarSubmit">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <div className="file-drop-zone">
           <div {...getRootProps()}>
