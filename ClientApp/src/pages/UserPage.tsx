@@ -5,6 +5,7 @@ import { authHeader, getUser } from '../auth'
 import { BicycleType, LoggedInUser, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
 import { useMutation } from 'react-query'
+import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
@@ -144,7 +145,7 @@ export function UserPage() {
   return (
     <div>
       <h1 className="UserStableName">{user.fullName} stable</h1>
-      <form onSubmit={() =>userAvatar} className="UserAvatarSubmit">
+      <form onSubmit={() => userAvatar} className="UserAvatarSubmit">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <div className="file-drop-zone">
           <div {...getRootProps()}>
@@ -168,7 +169,12 @@ export function UserPage() {
           <div key={bicycle.id}>
             <Link to={`/bicycles/${bicycle.id}`}>
               <h2>{bicycle.title}</h2>
-              <img width={300} src={bicycle.photoURL} alt={bicycle.title} />
+              <img
+                width={300}
+                src={bicycle.photoURL}
+                onError={bicycleImageOnErrorHandler}
+                alt={bicycle.title}
+              />
             </Link>
           </div>
         ))}

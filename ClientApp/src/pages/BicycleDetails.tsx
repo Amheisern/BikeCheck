@@ -6,6 +6,7 @@ import defaultUserImage from '../images/logo.png'
 import { authHeader, getUserId, isLoggedIn } from '../auth'
 import { Link } from 'react-router-dom'
 import { NullBicycle, submitNewReview } from '../api'
+import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
 // import format from 'date-fns/format'
 
 
@@ -84,7 +85,12 @@ export function BicycleDetails() {
     <div>
       <article>
         {bicycle.photoURL ? (
-          <img alt="bicycle Photo" width={400} src={bicycle.photoURL} />
+          <img
+            alt="bicycle Photo"
+            width={400}
+            src={bicycle.photoURL}
+            onError={bicycleImageOnErrorHandler}
+          />
         ) : null}
         <ul>
           <div>
