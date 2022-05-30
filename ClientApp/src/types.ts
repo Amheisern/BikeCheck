@@ -18,7 +18,7 @@ export type BicycleType = {
   chainRing: string
   rearCog: string
   crank: string
-  wheels: string
+  wheelSet: string
   pedals: string
   other: string
   photoURL: string

@@ -3,9 +3,7 @@ import { BicycleType } from '../types'
 import { Link } from 'react-router-dom'
 import { bicycleImageOnErrorHandler, userImageOnErrorHandler } from './defaultImageLoading'
 import { getUser } from '../auth'
-// onError={(e) => (e.target.src = defaultUserImage)} 
-// need to figure out how to get the default image to display
-// Need to write up this destructuring 1:58:00 in the video
+
 const user = getUser()
 export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
   return (

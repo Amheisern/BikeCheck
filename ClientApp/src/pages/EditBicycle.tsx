@@ -26,7 +26,7 @@ export function EditBicycle() {
     chainRing: '',
     rearCog: '',
     crank: '',
-    wheels: '',
+    wheelSet: '',
     pedals: '',
     other: '',
     reviews: [],
@@ -51,7 +51,7 @@ export function EditBicycle() {
 
   const editNewBicycle = useMutation(submitEditedNewBicycle, {
     onSuccess: () => {
-      history('/')
+      history('/user/' + user.id)
       // I will need to change this redirection to a users page
     },
     onError: function (apiError: APIError) {
@@ -316,14 +316,14 @@ export function EditBicycle() {
           </div>
 
           <div className="form-group">
-            <label className="col-md-4 control-label" htmlFor="wheels">
+            <label className="col-md-4 control-label" htmlFor="wheelSet">
               Wheels
             </label>
             <div className="col-md-4">
               <input
-                id="wheels"
-                name="wheels"
-                value={updateBicycle.wheels}
+                id="wheelSet"
+                name="wheelSet"
+                value={updateBicycle.wheelSet}
                 onChange={handleFormChange}
                 type="text"
                 placeholder="What are you skidding?"

@@ -191,6 +191,7 @@ setUpdateUser(updatedUser)
   return (
     <div>
       <h1 className="UserStableName">{user.fullName} stable</h1>
+      <Link to="/add"><button className="AddBicycleButton">Add Bicycle</button></Link>
       <form onSubmit={handleFormSubmit} className="UserAvatarSubmit">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <div className="file-drop-zone">
