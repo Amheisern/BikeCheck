@@ -219,13 +219,13 @@ setUpdateUser(updatedUser)
           <div key={bicycle.id}>
             <Link to={`/bicycles/${bicycle.id}`}>
               <article className="bicycleCard">
-              <h2>{bicycle.title}</h2>
               <img
                 width={300}
                 src={bicycle.photoURL}
                 className="user-page-bikes"
                 alt={bicycle.title}
-              />
+                />
+                <h2>{bicycle.title}</h2>
               </article>
             </Link>
           </div>

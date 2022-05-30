@@ -13,7 +13,7 @@ export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
       </Link>
       <ul>
         <li>
-          <strong>{bicycle.title}</strong>({bicycle.reviews?.length})
+          <strong>{bicycle.title}</strong> ({bicycle.reviews?.length})
         </li>
         <li>
           <img

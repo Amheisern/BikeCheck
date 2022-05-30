@@ -348,6 +348,7 @@ export function AddBicycle() {
               ></textarea>
             </div>
           </div>
+          <div className="addBikeForm">
           {newBicycle.photoURL ? (
             <p className="photo-preview">
               <img
@@ -369,6 +370,7 @@ export function AddBicycle() {
                 Submit
               </button>
             </div>
+          </div>
           </div>
         </fieldset>
       </form>
