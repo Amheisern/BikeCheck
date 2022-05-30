@@ -49,7 +49,7 @@ export function EditBicycle() {
     }
   }
 
-  const createNewBicycle = useMutation(submitEditedNewBicycle, {
+  const editNewBicycle = useMutation(submitEditedNewBicycle, {
     onSuccess: () => {
       history('/')
       // I will need to change this redirection to a users page
@@ -61,7 +61,7 @@ export function EditBicycle() {
 
   async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    createNewBicycle.mutate(updateBicycle)
+    editNewBicycle.mutate(updateBicycle)
   }
 
   function handleFormChange(

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 // import { useQuery } from 'react-query'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { authHeader, getUser } from '../auth'
-import { BicycleType, LoggedInUser, UploadResponse } from '../types'
+import { APIError, BicycleType, LoggedInUser, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
 import { useMutation } from 'react-query'
 import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
@@ -10,7 +10,7 @@ import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
   const user = getUser()
-  // const history = useNavigate()
+ const history = useNavigate()
 
   const [isUploading, setIsUploading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -35,22 +35,68 @@ export function UserPage() {
     loadUserDetails()
   }, [id])
 
-  async function userAvatar( updateUser: LoggedInUser) {
-    const responseOptions = {
+  async function submitEditedUserPhoto(UserToUpdate: LoggedInUser) {
+    const response = await fetch(`/api/users/${UserToUpdate.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Authorization: authHeader(),
       },
-      body: JSON.stringify({ photoURL: 'photoURL' }),
+      body: JSON.stringify(UserToUpdate),
+    })
+    const data = await response.json()
+    if (response.ok) {
+      setUpdateUser(data)
     }
-    fetch(`/api/users/${updateUser.id}`, responseOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        setUpdateUser(data)
-      })
-      console.log(setUpdateUser)
   }
+  // async function loadUserDetails() {
+  //   const response = await fetch(`/api/users/${id}`)
+  //   if (response.ok) {
+  //     return response.json()
+  //   } else {
+  //     throw await response.json()
+  //   }
+  // }
+
+const editUserPhoto = useMutation(submitEditedUserPhoto, {
+  onSuccess: () => {
+    history('/')
+  },
+  onError: function (apiError: APIError) {
+    setErrorMessage(Object.values(apiError.errors).join('/'))
+  },
+})
+
+async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault()
+  editUserPhoto.mutate(updateUser)
+}
+
+function handleFormChange(
+  event: React.ChangeEvent<HTMLInputElement>
+)
+{const value = event.target.value
+const fieldName = event.target.name
+const updatedUser = { ...updateUser, [fieldName]: value }
+setUpdateUser(updatedUser)
+}
+
+  // async function userAvatar( updateUser: LoggedInUser) {
+  //   const responseOptions = {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: authHeader(),
+  //     },
+  //     body: JSON.stringify({ photoURL: 'photoURL' }),
+  //   }
+  //   fetch(`/api/users/${updateUser.id}`, responseOptions)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setUpdateUser(data)
+  //     })
+  //     console.log(setUpdateUser)
+  // }
 
   // async function UserAvatar(UserAvatarSet: LoggedInUser) {
   //   const response = await fetch(`/api/users/${id}`, {
@@ -145,11 +191,11 @@ export function UserPage() {
   return (
     <div>
       <h1 className="UserStableName">{user.fullName} stable</h1>
-      <form onSubmit={() => userAvatar} className="UserAvatarSubmit">
+      <form onSubmit={handleFormSubmit} className="UserAvatarSubmit">
         {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
         <div className="file-drop-zone">
           <div {...getRootProps()}>
-            <input {...getInputProps()} />
+            <input name="photoURL" value={updateUser.photoURL} onChange={handleFormChange}{...getInputProps()} />
             {dropZoneMessage}
           </div>
         </div>
