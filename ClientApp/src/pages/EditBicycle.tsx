@@ -11,8 +11,12 @@ export function EditBicycle() {
   const history = useNavigate()
   const user = getUser()
 
-  const [isUploading, setIsUploading] = useState(false)
-
+ useQuery<BicycleType>(['one-bicycle', id], () => loadBicycleDetails(), {
+    onSuccess: function (bicycleBeingLoaded) {
+      setUpdateBicycle(bicycleBeingLoaded)
+    },
+  })
+  
   const [updateBicycle, setUpdateBicycle] = useState<BicycleType>({
     id: undefined,
     userId: undefined,
@@ -33,12 +37,11 @@ export function EditBicycle() {
     photoURL: '',
   })
 
-  useQuery<BicycleType>(['one-bicycle', id], () => loadBicycleDetails(), {
-    onSuccess: function (bicycleBeingLoaded) {
-      setUpdateBicycle(bicycleBeingLoaded)
-    },
-  })
+ 
+
   const [errorMessage, setErrorMessage] = useState('')
+const [isUploading, setIsUploading] = useState(false)
+
 
   async function loadBicycleDetails() {
     const response = await fetch(`/api/bicycles/${id}`)
@@ -50,9 +53,8 @@ export function EditBicycle() {
   }
 
   const editNewBicycle = useMutation(submitEditedNewBicycle, {
-    onSuccess: () => {
+    onSuccess: function () {
       history('/user/' + user.id)
-      // I will need to change this redirection to a users page
     },
     onError: function (apiError: APIError) {
       setErrorMessage(Object.values(apiError.errors).join('/'))
@@ -72,6 +74,7 @@ export function EditBicycle() {
     const updatedBicycle = { ...updateBicycle, [fieldName]: value }
     setUpdateBicycle(updatedBicycle)
   }
+  // -------------------------------------------------------------------
   async function uploadFile(fileToUpload: File) {
     // Create a formData object so we can send this
     // to the API that is expecting some form data.
@@ -96,7 +99,6 @@ export function EditBicycle() {
       throw 'Unable to upload image!'
     }
   }
-
   function onDropFile(acceptedFiles: File[]) {
     // Do something with the files
     const fileToUpload = acceptedFiles[0]

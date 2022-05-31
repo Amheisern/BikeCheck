@@ -10,7 +10,7 @@ import { useMutation } from 'react-query'
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
   const user = getUser()
- const history = useNavigate()
+  const history = useNavigate()
 
   const [isUploading, setIsUploading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -58,28 +58,26 @@ export function UserPage() {
   //   }
   // }
 
-const editUserPhoto = useMutation(submitEditedUserPhoto, {
-  onSuccess: () => {
-    history('/')
-  },
-  onError: function (apiError: APIError) {
-    setErrorMessage(Object.values(apiError.errors).join('/'))
-  },
-})
+  const editUserPhoto = useMutation(submitEditedUserPhoto, {
+    onSuccess: () => {
+      history('/')
+    },
+    onError: function (apiError: APIError) {
+      setErrorMessage(Object.values(apiError.errors).join('/'))
+    },
+  })
 
-async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault()
-  editUserPhoto.mutate(updateUser)
-}
+  async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    editUserPhoto.mutate(updateUser)
+  }
 
-function handleFormChange(
-  event: React.ChangeEvent<HTMLInputElement>
-)
-{const value = event.target.value
-const fieldName = event.target.name
-const updatedUser = { ...updateUser, [fieldName]: value }
-setUpdateUser(updatedUser)
-}
+  function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const value = event.target.value
+    const fieldName = event.target.name
+    const updatedUser = { ...updateUser, [fieldName]: value }
+    setUpdateUser(updatedUser)
+  }
 
   // async function userAvatar( updateUser: LoggedInUser) {
   //   const responseOptions = {
@@ -187,43 +185,53 @@ setUpdateUser(updatedUser)
   if (isDragActive) {
     dropZoneMessage = 'Drop the files here ...'
   }
- 
+  console.log(updateUser && updateUser.photoURL )
+  console.log(user && user.photoURL)
+
   return (
     <div>
       <div className="userContainer">
-      <h1 className="userStableName">{user.fullName} stable</h1>
-      <form onSubmit={handleFormSubmit} className="userAvatarSubmit">
-        {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
-        <div className="file-drop-zone">
-          <div {...getRootProps()}>
-            <input name="photoURL" className="dragNDrop" value={updateUser.photoURL} onChange={handleFormChange}{...getInputProps()} />
-            {dropZoneMessage}
+        <h1 className="userStableName">{user.fullName} stable</h1>
+        <form onSubmit={handleFormSubmit} className="userAvatarSubmit">
+          {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+          <div className="file-drop-zone">
+            <div {...getRootProps()}>
+              <input
+                name="photoURL"
+                className="dragNDrop"
+                value={updateUser.photoURL}
+                onChange={handleFormChange}
+                {...getInputProps()}
+              />
+              {dropZoneMessage}
+            </div>
           </div>
-        </div>
-        <div className="file-drop-zone-preview">
-          {updateUser.photoURL ? (
-            <p>
-              <img alt="User Photo" width={100} src={updateUser.photoURL} />
-            </p>
-          ) : null}
-        </div>
-        <button id="submit" name="submit" className="btn btn-success">
-          Submit
-        </button>
-      </form>
+          <button id="submit" name="submit" className="btn btn-success">
+            Submit
+          </button>
+          <div className="file-drop-zone-preview">
+            {updateUser.photoURL ? (
+              <p>
+                <img alt="User Photo" width={100} src={updateUser.photoURL} />
+              </p>
+            ) : null}
+          </div>
+        </form>
       </div>
       <hr></hr>
-          <Link to="/add"><button className="AddBicycleButton">Add Bicycle</button></Link>
+      <Link to="/add">
+        <button className="AddBicycleButton">Add Bicycle</button>
+      </Link>
       <section>
         {bicycles.map((bicycle) => (
           <div key={bicycle.id}>
             <Link to={`/bicycles/${bicycle.id}`}>
               <article className="bicycleCard">
-              <img
-                width={300}
-                src={bicycle.photoURL}
-                className="user-page-bikes"
-                alt={bicycle.title}
+                <img
+                  width={300}
+                  src={bicycle.photoURL}
+                  className="user-page-bikes"
+                  alt={bicycle.title}
                 />
                 <h2>{bicycle.title}</h2>
               </article>

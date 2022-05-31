@@ -2,7 +2,7 @@ import React from 'react'
 import { BicycleType } from '../types'
 import { Link } from 'react-router-dom'
 // import { getUser } from '../auth'
-
+ import defaultUserImage from '../images/logo.png'
 
 // const user = getUser()
 export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
@@ -17,7 +17,7 @@ export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
         </li>
         <li>
           <img
-            src={bicycle.photoURL}
+            src={defaultUserImage ?? bicycle.photoURL}
             width="24px"
             height="24px"
           />
