@@ -15,7 +15,7 @@ export const NullBicycle: BicycleType = {
   chainRing: '',
   rearCog: '',
   crank: '',
-  wheels: '',
+  wheelSet: '',
   pedals: '',
   other: '',
   photoURL: '',
