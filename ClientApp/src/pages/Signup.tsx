@@ -19,7 +19,7 @@ export function SignUp() {
   (newUser: NewUserType) => submitNewUser(newUser),
      {
       onSuccess: () => {
-        history('/')
+        history('/signin')
       },
       onError: function(error: APIError){
         setErrorMessage(Object.values(error.errors).join("/"))
