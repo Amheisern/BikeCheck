@@ -15,14 +15,14 @@ export function UserPage() {
   const [isUploading, setIsUploading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [updateUser, setUpdateUser] = useState<LoggedInUser>({
-    id: undefined,
+    id: user.id,
     email: '',
     fullName: '',
     photoURL: '',
     bicycles: [],
   })
-
   const [bicycles, setBicycles] = useState<BicycleType[]>([])
+
   // const singleUser = LoggedInUser
   useEffect(() => {
     const loadUserDetails = () => {
@@ -47,8 +47,12 @@ export function UserPage() {
     const data = await response.json()
     if (response.ok) {
       setUpdateUser(data)
+      setUpdateUser(updateUser)
+      
+      
     }
   }
+
   // async function loadUserDetails() {
   //   const response = await fetch(`/api/users/${id}`)
   //   if (response.ok) {
@@ -185,7 +189,7 @@ export function UserPage() {
   if (isDragActive) {
     dropZoneMessage = 'Drop the files here ...'
   }
-  console.log(updateUser && updateUser.photoURL )
+  console.log(updateUser && updateUser.photoURL)
   console.log(user && user.photoURL)
 
   return (
