@@ -186,7 +186,7 @@ namespace BikeCheck.Controllers
             {
                 var response = new
                 {
-                    status = 400,
+                    status = 401,
                     error = new List<string>() { "You are not authorized to delete this bicycle." }
                 };
                 return Unauthorized();

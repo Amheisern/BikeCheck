@@ -16,7 +16,7 @@ export function EditBicycle() {
       setUpdateBicycle(bicycleBeingLoaded)
     },
   })
-  
+
   const [updateBicycle, setUpdateBicycle] = useState<BicycleType>({
     id: undefined,
     userId: undefined,
@@ -38,7 +38,6 @@ export function EditBicycle() {
   })
 
  
-
   const [errorMessage, setErrorMessage] = useState('')
 const [isUploading, setIsUploading] = useState(false)
 

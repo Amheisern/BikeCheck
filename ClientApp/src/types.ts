@@ -7,7 +7,7 @@ export interface CSSStarsProperties extends CSSProperties {
 
 export type BicycleType = {
   id: number | undefined
-  userId: string | undefined
+  userId: number | undefined
   title: string
   description: string
   frame: string
@@ -40,7 +40,7 @@ export type NewReviewType = {
   body: string
   stars: number
   createdAt: Date
-  bicycleId: number
+  bicycleId: number | undefined
 }
 
 export type APIError = {

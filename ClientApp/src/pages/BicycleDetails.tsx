@@ -3,7 +3,7 @@ import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router'
 import { BicycleType, NewReviewType } from '../types'
 // import defaultUserImage from '../images/logo.png'
-import { authHeader, getUserId, isLoggedIn } from '../auth'
+import { authHeader, getUser, getUserId, isLoggedIn } from '../auth'
 import { Link } from 'react-router-dom'
 import { NullBicycle, submitNewReview } from '../api'
 // import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
@@ -13,6 +13,7 @@ import { NullBicycle, submitNewReview } from '../api'
 
 export function BicycleDetails() {
   const { id } = useParams<{ id: string }>()
+  const user = getUser()
   // const user = getUser()
   const [newReview, setNewReview] = useState<NewReviewType>({
     id: undefined,
@@ -20,7 +21,7 @@ export function BicycleDetails() {
     stars: 5,
     summary: '',
     createdAt: new Date(),
-    bicycleId: Number(id),
+    bicycleId: undefined,
   })
 
   const history = useNavigate()
@@ -71,8 +72,8 @@ export function BicycleDetails() {
         Authorization: authHeader(),
       },
     })
-    if (response.status === 200 || response.status === 204) {
-      history('/')
+    if (response.ok) {
+      history('/user' + user.id)
     }
   }
   // ;(event) => {
@@ -83,13 +84,9 @@ export function BicycleDetails() {
     <div>
       <article className="bikePhoto">
         <div className="bikePhoto">
-        {bicycle.photoURL ? (
-          <img
-            alt="bicycle Photo"
-            width={400}
-            src={bicycle.photoURL}
-          />
-        ) : null}
+          {bicycle.photoURL ? (
+            <img alt="bicycle Photo" width={400} src={bicycle.photoURL} />
+          ) : null}
         </div>
         <div className="bikeSection">
           <strong>{bicycle.title}</strong>
