@@ -24,6 +24,7 @@ export function UserPage() {
   const [bicycles, setBicycles] = useState<BicycleType[]>([])
 
   // const singleUser = LoggedInUser
+  // displays user's bikes 
   useEffect(() => {
     const loadUserDetails = () => {
       fetch(`/api/users/${id}`)
