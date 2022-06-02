@@ -43,7 +43,7 @@ namespace BikeCheck.Controllers
         //
         //
         [HttpPost]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [RequestSizeLimit(10_000_000)]
         
         public async Task<ActionResult> UploadAsync(IFormFile file)
