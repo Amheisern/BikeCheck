@@ -173,6 +173,7 @@ namespace BikeCheck.Controllers
         // to grab the id from the URL. It is then made available to us as the `id` argument to the method.
         //
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteBicycle(int id)
         {
             // Find this bicycle by looking for the specific id

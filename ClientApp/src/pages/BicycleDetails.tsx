@@ -13,8 +13,7 @@ import { NullBicycle, submitNewReview } from '../api'
 
 export function BicycleDetails() {
   const { id } = useParams<{ id: string }>()
-  const user = getUser()
-  // const user = getUser()
+   const user = getUser()
   const [newReview, setNewReview] = useState<NewReviewType>({
     id: undefined,
     body: '',
@@ -24,7 +23,7 @@ export function BicycleDetails() {
     bicycleId: undefined,
   })
 
-  const history = useNavigate()
+   const history = useNavigate()
 
   const { refetch, data: bicycle = NullBicycle } = useQuery<BicycleType>(
     ['one-bicycle', id],
@@ -61,10 +60,12 @@ export function BicycleDetails() {
       throw await response.json()
     }
   }
-
-  async function handleDeleteBicycle(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+// async function handleDeleteBicycle(event: React.FormEvent<HTMLFormElement>)
+  async function handleDelete(id: number | undefined) {
+    // event.preventDefault()
+    if (id === undefined) {
+      return
+    }
     const response = await fetch(`/api/bicycles/${id}`, {
       method: 'DELETE',
       headers: {
@@ -72,14 +73,23 @@ export function BicycleDetails() {
         Authorization: authHeader(),
       },
     })
+    
     if (response.ok) {
-      history('/user' + user.id)
+      return response.json()
+    } else {
+      throw await response.json()
     }
   }
-  // ;(event) => {
-  //   event.preventDefault()
-  //   createNewReview.mutate(newReview)
-  // }
+   const deleteBicycles = useMutation(handleDelete, {
+     onSuccess: function () {
+       history('/user/' + user.id)
+     },
+     onError: function () {
+       // TODO: Make a better error handling here
+       console.log('ooops')
+     },
+   })
+
   return (
     <div>
       <article className="bikePhoto">
@@ -124,16 +134,19 @@ export function BicycleDetails() {
           </div>
         </ul>
         {bicycle.userId === getUserId() ? (
-          <form className="biDetailButtons" onSubmit={handleDeleteBicycle}>
+          <>
             <p>
-              <button className="deleteButton">Delete Bicycle</button>
+              <button onClick={function (event) {
+                event.preventDefault()
+                deleteBicycles.mutate(bicycle.id)
+              }}>Delete Bicycle</button>
             </p>
             <p>
               <Link className="button" to={`/bicycles/${id}/edit`}>
                 <button className="editButton"> Edit Bicycle </button>
               </Link>
             </p>
-          </form>
+            </>
         ) : null}
       </article>
       <hr></hr>

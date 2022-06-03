@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 // import { useQuery } from 'react-query'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { authHeader, getUser } from '../auth'
 import { APIError, BicycleType, LoggedInUser, UploadResponse } from '../types'
 import { useDropzone } from 'react-dropzone'
@@ -10,7 +10,7 @@ import { useMutation } from 'react-query'
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
   const user = getUser()
-  const history = useNavigate()
+  // const history = useNavigate()
 
   const [isUploading, setIsUploading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -24,7 +24,7 @@ export function UserPage() {
   const [bicycles, setBicycles] = useState<BicycleType[]>([])
 
   // const singleUser = LoggedInUser
-  // displays user's bikes 
+  // displays user's bikes
   useEffect(() => {
     const loadUserDetails = () => {
       fetch(`/api/users/${id}`)
@@ -49,8 +49,6 @@ export function UserPage() {
     if (response.ok) {
       setUpdateUser(data)
       setUpdateUser(updateUser)
-      
-      
     }
   }
 
@@ -65,19 +63,22 @@ export function UserPage() {
 
   const editUserPhoto = useMutation(submitEditedUserPhoto, {
     onSuccess: () => {
-      history('/')
     },
     onError: function (apiError: APIError) {
-      setErrorMessage(Object.values(apiError.errors).join('/'))
+      setErrorMessage(Object.values(apiError.errors).join('. '))
     },
   })
 
   async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
+    console.log('handleFormSubmit')
+
     event.preventDefault()
     editUserPhoto.mutate(updateUser)
   }
 
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log('handleFormChange')
+
     const value = event.target.value
     const fieldName = event.target.name
     const updatedUser = { ...updateUser, [fieldName]: value }
@@ -171,11 +172,12 @@ export function UserPage() {
   const uploadFileMutation = useMutation(uploadFile, {
     onSuccess: function (apiResponse: UploadResponse) {
       const url = apiResponse.url
-
+      console.log(updateUser, url, '!!!!')
       setUpdateUser({ ...updateUser, photoURL: url })
     },
 
     onError: function (error: string) {
+      console.log('?????', error)
       setErrorMessage(error)
     },
 
@@ -190,27 +192,25 @@ export function UserPage() {
   if (isDragActive) {
     dropZoneMessage = 'Drop the files here ...'
   }
-  console.log(updateUser && updateUser.photoURL)
-  console.log(user && user.photoURL)
 
   return (
     <div>
       <div className="userContainer">
         <h1 className="userStableName">{user.fullName} stable</h1>
-        <form onSubmit={handleFormSubmit} className="userAvatarSubmit">
-          {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
-          <div className="file-drop-zone">
-            <div {...getRootProps()}>
-              <input
-                name="photoURL"
-                className="dragNDrop"
-                value={updateUser.photoURL}
-                onChange={handleFormChange}
-                {...getInputProps()}
-              />
-              {dropZoneMessage}
-            </div>
+        <div className="file-drop-zone">
+          <div {...getRootProps()}>
+            <input
+              name="photoURL"
+              className="dragNDrop"
+              value={updateUser.photoURL}
+              onChange={handleFormChange}
+              {...getInputProps()}
+            />
+            {dropZoneMessage}
           </div>
+          {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+        </div>
+        <form onSubmit={handleFormSubmit} className="userAvatarSubmit">
           <button id="submit" name="submit" className="btn btn-success">
             Submit
           </button>

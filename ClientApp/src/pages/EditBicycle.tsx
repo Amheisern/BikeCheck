@@ -12,8 +12,10 @@ export function EditBicycle() {
   const user = getUser()
 
   useQuery<BicycleType>(['one-bicycle', id], () => loadBicycleDetails(), {
+    refetchOnWindowFocus: false,
     onSuccess: function (bicycleBeingLoaded) {
-      setUpdateBicycle(bicycleBeingLoaded)
+      console.log('loadBicycleDetails')
+       setUpdateBicycle(bicycleBeingLoaded)
     },
   })
 
@@ -69,6 +71,7 @@ export function EditBicycle() {
     const value = event.target.value
     const fieldName = event.target.name
     const updatedBicycle = { ...updateBicycle, [fieldName]: value }
+    console.log('handleFormChanges')
     setUpdateBicycle(updatedBicycle)
   }
   // -------------------------------------------------------------------
@@ -110,11 +113,13 @@ export function EditBicycle() {
   const uploadFileMutation = useMutation(uploadFile, {
     onSuccess: function (apiResponse: UploadResponse) {
       const url = apiResponse.url
-
+      console.log('uploadFileMutations')
       setUpdateBicycle({ ...updateBicycle, photoURL: url })
+      setIsUploading(false)
     },
 
     onError: function (error: string) {
+      console.log(error)
       setErrorMessage(error)
     },
 
@@ -139,7 +144,7 @@ export function EditBicycle() {
         <h1 className="addABikeTitle">
           edit {user.fullName} {updateBicycle.title}
         </h1>
-        {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
+        {errorMessage ? <p className="form-error"> {errorMessage} </p> : null}
         <div className="form-group">
           <label className="col-md-4 control-label" htmlFor="title">
             Title
@@ -170,8 +175,7 @@ export function EditBicycle() {
               name="description"
               placeholder="Description (required)"
               value={updateBicycle.description}
-              onChange={handleFormChange}
-            >
+              onChange={handleFormChange} >
               Type a description(required)
             </textarea>
           </div>
@@ -377,9 +381,10 @@ export function EditBicycle() {
                 <button
                   onClick={function (event) {
                     event.preventDefault()
+                    console.log('button:click')
                     setUpdateBicycle({
                       ...updateBicycle,
-                      photoURL: ''
+                      photoURL: '',
                     })
                   }}
                 >
@@ -387,14 +392,14 @@ export function EditBicycle() {
                 </button>
               </p>
             ) : null}
-            <p className="form-input">
+            <div className="form-input">
               <div className="file-drop-zone">
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
                   {dropZoneMessage}
                 </div>
               </div>
-            </p>
+            </div>
             <p>
               <button id="submit" name="submit" className="btn btn-success">
                 Save
