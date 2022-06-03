@@ -37,7 +37,7 @@ function LoggedInNav() {
       <Link to={`/user/${user.id}`}>
         <p className="stable">
           {user.fullName}
-          <img src={user.photoURL} onError={userImageOnErrorHandler} />
+          <img width="100" src={user.photoURL} onError={userImageOnErrorHandler} />
         </p>
       </Link>
     </>
