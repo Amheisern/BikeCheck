@@ -109,7 +109,7 @@ export function AddBicycle() {
     },
   })
 
-  let dropZoneMessage = 'Drag a picture of the restaurant here to upload!'
+  let dropZoneMessage = 'Drag a picture of the bicycle here to upload!'
 
   if (isUploading) {
     dropZoneMessage = 'Uploading...'
