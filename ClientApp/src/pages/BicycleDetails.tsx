@@ -20,7 +20,7 @@ export function BicycleDetails() {
     stars: 5,
     summary: '',
     createdAt: new Date(),
-    bicycleId: undefined,
+    bicycleId: Number(id),
   })
 
    const history = useNavigate()
@@ -44,7 +44,7 @@ export function BicycleDetails() {
     createNewReview.mutate(newReview)
   }
 
-  function handleNewReviewTextFieldChange(
+  function  handleNewReviewTextFieldChange(
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) {
     const name = event.target.name
