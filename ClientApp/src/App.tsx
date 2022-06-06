@@ -1,7 +1,5 @@
 import React from 'react'
 import logo from './images/ChainStarsLogoCenter.png'
-
-
 import git from './images/GitHubSmall.png'
 import { Route, Routes } from 'react-router'
 import { Landing } from './pages/Landing'
@@ -13,7 +11,8 @@ import { SignIn } from './pages/Signin'
 import { UserPage } from './pages/UserPage'
 import { EditBicycle } from './pages/EditBicycle'
 import { getUser, isLoggedIn, logout } from './auth'
-import { userImageOnErrorHandler } from './components/defaultImageLoading'
+import defaultUserImage from './images/logo.png'
+// import { userImageOnErrorHandler } from './components/defaultImageLoading'
 
 function LoggedInNav() {
   const user = getUser()
@@ -37,7 +36,7 @@ function LoggedInNav() {
       <Link to={`/user/${user.id}`}>
         <p className="stable">
           {user.fullName}
-          <img width="100" src={user.photoURL} onError={userImageOnErrorHandler} />
+          <img className="defaultUserImage" src={defaultUserImage ?? user.photoURL} />
         </p>
       </Link>
     </>
@@ -55,7 +54,6 @@ function SignoutNav() {
     </>
   )
 }
- 
 
 export function App() {
   return (
