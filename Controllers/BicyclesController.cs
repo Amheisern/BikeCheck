@@ -43,6 +43,7 @@ namespace BikeCheck.Controllers
             {
                 return await _context.Bicycles
                 .OrderBy(row => row.Id)
+                .Include(bicycle => bicycle.User)
                 .Include(bicycle => bicycle.Reviews)
                 .ToListAsync();
                 // return await _context.Bicycles.OrderBy(row => row.Id)

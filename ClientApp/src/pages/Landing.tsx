@@ -14,14 +14,11 @@ export function Landing() {
           ? '/api/bicycles'
           : `/api/bicycles?filter=${filterText}`
       )
-
-      // const response = await fetch(url)
-      //Dont need await since it is react query
       return response.json() 
     }
   )
+  
 
-  console.log(filterText)
 
   return (
     <>

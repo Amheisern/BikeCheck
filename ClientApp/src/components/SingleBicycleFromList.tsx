@@ -3,9 +3,14 @@ import { BicycleType } from '../types'
 import { Link } from 'react-router-dom'
 // import { getUser } from '../auth'
  import defaultUserImage from '../images/logo.png'
+//import { useQuery } from 'react-query'
 
-// const user = getUser()
+
+
+
 export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
+ 
+
   return (
     <article>
       <Link to={`/bicycles/${bicycle.id}`}>

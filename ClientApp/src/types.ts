@@ -6,8 +6,8 @@ export interface CSSStarsProperties extends CSSProperties {
 }
 
 export type BicycleType = {
-  id: number | undefined
-  userId: number | undefined
+  id: undefined
+  userId: undefined
   title: string
   description: string
   frame: string
@@ -23,6 +23,13 @@ export type BicycleType = {
   other: string
   photoURL: string
   reviews: ReviewType[]
+  user: {
+    id: undefined
+    fullName: ''
+    email: ''
+    photoURL: ''
+    bicycles: []
+  }
 }
 export type ReviewType = {
   id: number | undefined

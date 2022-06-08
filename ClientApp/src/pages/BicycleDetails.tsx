@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router'
-import { BicycleType, NewReviewType } from '../types'
+import { BicycleType, LoggedInUser, NewReviewType } from '../types'
 // import defaultUserImage from '../images/logo.png'
 import { authHeader, getUser, getUserId, isLoggedIn } from '../auth'
 import { Link } from 'react-router-dom'
@@ -37,6 +37,7 @@ export function BicycleDetails() {
       setNewReview({ ...newReview, body: '', stars: 5, summary: '' })
     },
   })
+
   async function handleSubmitNewReview(
     event: React.FormEvent<HTMLFormElement>
   ) {
@@ -90,15 +91,33 @@ export function BicycleDetails() {
      },
    })
 
+   const [users, setUsers] = useState<LoggedInUser[]>([])
+   useEffect(() => {
+     const loadUsersInformation = () => {
+       fetch(`/api/bicycles/${id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setUsers(data.users)
+          })
+     }
+      loadUsersInformation()
+    }, [id] )
+    console.log(users);
+    
+   
   return (
     <div>
       <article className="bikePhoto">
         <div className="bikePhoto">
           {bicycle.photoURL ? (
-            <img alt="bicycle Photo" width={400} src={bicycle.photoURL} />
+            <img alt="bicycle Photo" width={500} src={bicycle.photoURL} />
           ) : null}
         </div>
         <div className="bikeSection">
+          <div>
+            <h1>{bicycle.userId}</h1>
+            {/* <h2>{bicycle.user.fullName  }</h2> */}
+          </div>
           <strong>{bicycle.title}</strong>
           <p>{bicycle.description}</p>
           <ul className="bikeDetails">
