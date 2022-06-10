@@ -23,7 +23,12 @@ export function SignIn() {
     },
   })
 
+  // export function showPassword()
 
+  const [passwordShow, setPasswordShow] = useState(false)
+  const toggledPassword = () => {
+    setPasswordShow(!passwordShow)
+  }
 
   function handleStringFieldChange(event: React.ChangeEvent<HTMLInputElement>) {
     const value = event.target.value
@@ -59,13 +64,17 @@ export function SignIn() {
         <label>
           Password:
           <input
-            type="password"
+            placeholder="click to show Password"
+            type={passwordShow ? 'text' : 'password'}
             name="password"
             value={user.password}
+            onClick={toggledPassword}
             onChange={handleStringFieldChange}
           />
         </label>
-        <button type="submit" className="submit">Sign In</button>
+        <button type="submit" className="submit">
+          Sign In
+        </button>
       </form>
     </div>
   )

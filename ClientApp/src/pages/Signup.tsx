@@ -35,6 +35,11 @@ export function SignUp() {
     setNewUser(updatedUser)
   }
 
+ const [passwordShow, setPasswordShow] = useState(false)
+ const toggledPassword = () => {
+   setPasswordShow(!passwordShow)
+ }
+
 const { getRootProps, getInputProps, isDragActive } = useDropzone({
   onDrop: onDropFile,
 })
@@ -133,9 +138,11 @@ if (isDragActive) {
         <p className="form-input">
           <label htmlFor="password">Password</label>
           <input
-            type="password"
+            placeholder="click to show Password"
+            type={passwordShow ? 'text' : 'password'}
             name="password"
             value={newUser.password}
+            onClick={toggledPassword}
             onChange={handleStringFieldChange}
           />
         </p>
