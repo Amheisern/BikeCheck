@@ -202,7 +202,9 @@ article a img {
   height: auto;
   max-width: 100%;
   width: 400px;
-  height: 400px;
+  object-fit: scale-down;
+  // background-size: 400px, 400px;
+   height: 400px;
 }
 
 section article ul {
