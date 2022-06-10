@@ -11,6 +11,12 @@
 
 html {
   height: 100%;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -57,6 +63,7 @@ header {
   padding-left: 30px;
   padding-bottom: 10px;
   font-weight: bold;
+  position: relative;
 }
 .logo {
   padding-top: 20px;
@@ -151,6 +158,9 @@ h2 {
   padding-left: 20px;
   margin-top: 0px;
 }
+a .signout {
+  display: inline;
+}
 .submit {
   display: flex;
   flex-direction: column;
@@ -181,7 +191,7 @@ article {
   padding-left: 16px;
   box-sizing: border-box;
 }
-article img {
+article a img {
   display: inline-flex;
   display: block;
   border: 1px #e1e4e8 solid;
@@ -191,6 +201,8 @@ article img {
   padding: 8px;
   height: auto;
   max-width: 100%;
+  width: 400px;
+  height: 400px;
 }
 
 section article ul {
@@ -208,7 +220,6 @@ section article ul {
   border-radius: 5px;
   list-style: none;
   margin-right: 4px;
-  
 }
 strong {
   font-weight: bold;

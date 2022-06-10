@@ -19,13 +19,6 @@ export const NullBicycle: BicycleType = {
   pedals: '',
   other: '',
   photoURL: '',
-  user: {
-    id: undefined,
-    fullName: '',
-    email: '',
-    photoURL: '',
-    bicycles: [],
-  },
   reviews: [],
 }
 

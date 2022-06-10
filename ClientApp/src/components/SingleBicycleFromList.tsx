@@ -14,7 +14,7 @@ export function SingleBicycleFromList({ bicycle }: { bicycle: BicycleType }) {
   return (
     <article>
       <Link to={`/bicycles/${bicycle.id}`}>
-        <img src={bicycle.photoURL} width="400" height="400" />
+        <img src={bicycle.photoURL} />
       </Link>
       <ul>
         <li>

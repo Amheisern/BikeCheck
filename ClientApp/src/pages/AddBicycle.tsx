@@ -29,13 +29,6 @@ export function AddBicycle() {
     other: '',
     reviews: [],
     photoURL: '',
-    user: {
-      id: undefined,
-      fullName: '',
-      email: '',
-      photoURL: '',
-      bicycles: [],
-    },
 
   })
   const [errorMessage, setErrorMessage] = useState('')

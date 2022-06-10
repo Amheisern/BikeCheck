@@ -37,13 +37,6 @@ export function EditBicycle() {
     other: '',
     reviews: [],
     photoURL: '',
-    user: {
-      id: undefined,
-      fullName: '',
-      email: '',
-      photoURL: '',
-      bicycles: [],
-    },
   })
 
   const [errorMessage, setErrorMessage] = useState('')

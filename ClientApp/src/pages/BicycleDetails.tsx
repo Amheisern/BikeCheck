@@ -91,18 +91,51 @@ export function BicycleDetails() {
      },
    })
 
-   const [users, setUsers] = useState<LoggedInUser[]>([])
+    const [bikeUser, setBikeUser] = useState<LoggedInUser>(user)
+
+    // async function loadBikeUser() {
+    //   const response = await fetch(`/api/users/${bicycle.userId}`)
+    //   if (response.ok) {
+    //     return response.json()
+    //   } else {
+    //     throw await response.json()
+    //   }
+    // }
    useEffect(() => {
-     const loadUsersInformation = () => {
-       fetch(`/api/bicycles/${id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            setUsers(data.users)
-          })
-     }
-      loadUsersInformation()
-    }, [id] )
-    console.log(users);
+   const userInformation= () => { fetch(`/api/bicycles/${id}`, { method: 'GET' })
+      .then(response => response.json())
+      .then(data => {
+        const bikeInformation = data.userId
+        console.log(bikeInformation);
+        
+        return fetch(`/api/users/${bikeInformation}`)
+   })
+      .then(response => response.json())
+      .then(data => {
+        setBikeUser(data)
+      }
+      )
+      .catch(err => {console.log(err)})
+    }
+      userInformation()
+    }, [id])
+      
+  //  useEffect(() => {
+  //    const loadBikeInformation = () => {
+  //      fetch(`/api/bicycles/${id}`)
+  //         .then((response) => response.json())
+  //         .then((data) =>
+  //          {
+  //           fetch(`/api/users/${data.userId}`)
+  //             .then((response) => response.json())
+  //             .then((data) => {
+  //               setBikeUser(data)
+  //               console.log(data);
+  //             })
+  //         })
+  //    }
+  //     loadBikeInformation()
+  //   }, [id] )
     
    
   return (
@@ -115,7 +148,7 @@ export function BicycleDetails() {
         </div>
         <div className="bikeSection">
           <div>
-            <h1>{bicycle.userId}</h1>
+            <h1>{bikeUser.fullName}:Bike</h1>
             {/* <h2>{bicycle.user.fullName  }</h2> */}
           </div>
           <strong>{bicycle.title}</strong>

@@ -23,13 +23,7 @@ export type BicycleType = {
   other: string
   photoURL: string
   reviews: ReviewType[]
-  user: {
-    id: undefined
-    fullName: ''
-    email: ''
-    photoURL: ''
-    bicycles: []
-  }
+
 }
 export type ReviewType = {
   id: number | undefined
