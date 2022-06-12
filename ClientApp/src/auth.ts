@@ -73,3 +73,15 @@ function authFromStorage(): LoginSuccess {
 
   return auth ? JSON.parse(auth) : {}
 }
+
+// Attempting an auto login after sign up
+export function attemptAutoLogin() {
+  const auth = authFromStorage()
+
+  if (auth.token) {
+    recordAuthentication(auth)
+  }
+  if (!auth.token) {
+    logout()
+  }
+}
