@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
 import { loginUser } from '../api'
-import { recordAuthentication } from '../auth'
+import { attemptAutoLogin, recordAuthentication } from '../auth'
 import { APIError, LoginUserType } from '../types'
 
 export function SignIn() {
@@ -11,6 +11,10 @@ export function SignIn() {
     password: '',
   })
 
+  useEffect(() => {
+    attemptAutoLogin( )
+  }, [])
+  
   const loginUserMutation = useMutation(loginUser, {
     onSuccess: function (apiResponse) {
       // TODO: record the authentication information we receive
