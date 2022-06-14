@@ -57,6 +57,7 @@ export function AddBicycle() {
     const updatedBicycle = { ...newBicycle, [fieldName]: value }
     setNewBicycle(updatedBicycle)
   }
+  
   async function uploadFile(fileToUpload: File) {
     // Create a formData object so we can send this
     // to the API that is expecting some form data.
