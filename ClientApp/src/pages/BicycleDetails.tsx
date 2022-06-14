@@ -7,9 +7,7 @@ import { authHeader, getUser, getUserId, isLoggedIn } from '../auth'
 import { Link } from 'react-router-dom'
 import { NullBicycle, submitNewReview } from '../api'
 // import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
-// import format from 'date-fns/format'
 
-// const dateFormat = `EEEE, MMMM do, yyyy 'at' h:mm aaa`
 
 export function BicycleDetails() {
   const { id } = useParams<{ id: string }>()
@@ -93,14 +91,6 @@ export function BicycleDetails() {
 
     const [bikeUser, setBikeUser] = useState<LoggedInUser>(user)
 
-    // async function loadBikeUser() {
-    //   const response = await fetch(`/api/users/${bicycle.userId}`)
-    //   if (response.ok) {
-    //     return response.json()
-    //   } else {
-    //     throw await response.json()
-    //   }
-    // }
    useEffect(() => {
    const userInformation= () => { fetch(`/api/bicycles/${id}`, { method: 'GET' })
       .then(response => response.json())

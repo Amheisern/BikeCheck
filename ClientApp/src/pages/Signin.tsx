@@ -14,7 +14,7 @@ export function SignIn() {
   useEffect(() => {
     attemptAutoLogin( )
   }, [])
-  
+
   const loginUserMutation = useMutation(loginUser, {
     onSuccess: function (apiResponse) {
       // TODO: record the authentication information we receive
@@ -27,7 +27,6 @@ export function SignIn() {
     },
   })
 
-  // export function showPassword()
 
   const [passwordShow, setPasswordShow] = useState(false)
   const toggledPassword = () => {
