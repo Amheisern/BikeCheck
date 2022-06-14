@@ -38,6 +38,7 @@ export function AddBicycle() {
     onSuccess: () => {
       history('/user/' + user.id)
       
+      
     },
     onError: function (apiError: APIError) {
       setErrorMessage(Object.values(apiError.errors).join('/'))
