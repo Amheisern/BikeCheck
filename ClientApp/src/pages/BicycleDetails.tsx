@@ -163,7 +163,7 @@ export function BicycleDetails() {
               <li key={reviews?.id}>
                 <div className="author">
                   {/* `/user/${reviews.user.id}` */}
-                  <Link to={"/"}>
+                  <Link to={`/user/${reviews.user.id}`}>
                     {reviews.user.fullName}
                   </Link>{' '}
                   said: <em>{reviews.summary}</em> on:{' '}

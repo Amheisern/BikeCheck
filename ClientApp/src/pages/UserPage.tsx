@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 // import { useQuery } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
- import {  getUser } from '../auth'
- import {  BicycleType } from '../types'
+//  import {  getUser } from '../auth'
+ import {  BicycleType, LoggedInUser } from '../types'
 // import { useDropzone } from 'react-dropzone'
 // import { useMutation } from 'react-query'
 // import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
-   const user = getUser()
+  //  const user = getUser()
   // const history = useNavigate()
 
   // // const [isUploading, setIsUploading] = useState(false)
@@ -22,6 +22,14 @@ export function UserPage() {
   //   bicycles: [],
   // })
   const [bicycles, setBicycles] = useState<BicycleType[]>([])
+  const [userPageInformation, setUserPageInformation] = useState<LoggedInUser>({
+    id: Number(id),
+    email: '',
+    fullName: '',
+    photoURL: '',
+    bicycles: [],
+  })
+
 
   // const singleUser = LoggedInUser
   // displays user's bikes
@@ -30,6 +38,7 @@ export function UserPage() {
       fetch(`/api/users/${id}`)
         .then((response) => response.json())
         .then((data) => {
+          setUserPageInformation(data)
           setBicycles(data.bicycles)
         })
     }
@@ -173,10 +182,11 @@ export function UserPage() {
 //     </div>
 //   </form>
 // </div>
+
   return (
     <div>
       <hr></hr>
-      <h1 className="userStableName">{user.fullName} stable</h1>
+      <h1 className="userStableName">{userPageInformation.fullName} stable</h1>
       <Link to="/add">
         <button className="AddBicycleButton">Add Bicycle</button>
       </Link>
