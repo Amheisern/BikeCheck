@@ -89,7 +89,7 @@ export function BicycleDetails() {
      },
    })
 
-    const [bikeUser, setBikeUser] = useState<LoggedInUser>(user)
+    const [bikeUser, setBikeUser] = useState<LoggedInUser>()
 
    useEffect(() => {
    const userInformation= () => { fetch(`/api/bicycles/${id}`, { method: 'GET' })
@@ -138,7 +138,7 @@ export function BicycleDetails() {
         </div>
         <div className="bikeSection">
           <div>
-            <h1>{bikeUser.fullName}:Bike</h1>
+            <h1>{bikeUser?.fullName}:Bike</h1>
             {/* <h2>{bicycle.user.fullName  }</h2> */}
           </div>
           <strong>{bicycle.title}</strong>
@@ -162,9 +162,10 @@ export function BicycleDetails() {
             {bicycle.reviews?.map((reviews) => (
               <li key={reviews?.id}>
                 <div className="author">
-                  <a href={`mailto:${reviews.user.email}`}>
+                  {/* `/user/${reviews.user.id}` */}
+                  <Link to={"/"}>
                     {reviews.user.fullName}
-                  </a>{' '}
+                  </Link>{' '}
                   said: <em>{reviews.summary}</em> on:{' '}
                   {new Date(reviews.createdAt).toLocaleDateString()}
                 </div>
@@ -178,17 +179,21 @@ export function BicycleDetails() {
         {bicycle.userId === getUserId() ? (
           <>
             <p>
-              <button onClick={function (event) {
-                event.preventDefault()
-                deleteBicycles.mutate(bicycle.id)
-              }}>Delete Bicycle</button>
+              <button
+                onClick={function (event) {
+                  event.preventDefault()
+                  deleteBicycles.mutate(bicycle.id)
+                }}
+              >
+                Delete Bicycle
+              </button>
             </p>
             <p>
               <Link className="button" to={`/bicycles/${id}/edit`}>
                 <button className="editButton"> Edit Bicycle </button>
               </Link>
             </p>
-            </>
+          </>
         ) : null}
       </article>
       <hr></hr>

@@ -51,6 +51,7 @@ export type APIError = {
   traceId: string
   type: string
 }
+
 export type NewUserType = {
   password: string
   email: string
@@ -64,7 +65,7 @@ export type LoginUserType = {
   photoURL?: string
 }
 export type LoggedInUser = {
-  id: number | undefined
+  id: number
   fullName: string
   email: string
   photoURL?: string
