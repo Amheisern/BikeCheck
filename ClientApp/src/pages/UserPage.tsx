@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-// import { useQuery } from 'react-query'
 import { Link, useParams } from 'react-router-dom'
 //  import {  getUser } from '../auth'
  import {  BicycleType, LoggedInUser } from '../types'
 // import { useDropzone } from 'react-dropzone'
 // import { useMutation } from 'react-query'
-// import { bicycleImageOnErrorHandler } from '../components/defaultImageLoading'
+
 
 export function UserPage() {
   const { id } = useParams<{ id: string }>()
@@ -31,8 +30,7 @@ export function UserPage() {
   })
 
 
-  // const singleUser = LoggedInUser
-  // displays user's bikes
+
   useEffect(() => {
     const loadUserDetails = () => {
       fetch(`/api/users/${id}`)
