@@ -84,8 +84,7 @@ export function BicycleDetails() {
        history('/user/' + user.id)
      },
      onError: function () {
-       // TODO: Make a better error handling here
-       console.log('ooops')
+        alert('Error deleting bicycle')
      },
    })
 
